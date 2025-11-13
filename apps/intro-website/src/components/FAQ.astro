@@ -1,0 +1,100 @@
+---
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+import type { FaqQuestion } from "@svsticky/content";
+import sdk from "../sdk";
+
+const faq = await sdk.findGlobal({ slug: "faq" });
+---
+
+<section id="FAQ">
+    <h1>Frequently Asked Questions</h1>
+    {
+        (faq.Questions! as FaqQuestion[]).map(
+            (question, idx) =>
+                question && (
+                    <div>
+                        <button class="question" data-target={`faq-${idx}`}>
+                            <span class="arrow">&#9662;</span>
+                            <span>{question.Question}</span>
+                        </button>
+                        <div
+                            class="answer"
+                            id={`faq-${idx}`}
+                            set:html={convertLexicalToHTML({data: question.Answer!})}
+                        />
+                    </div>
+                ),
+        )
+    }
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.querySelectorAll(".question").forEach((button) => {
+            button.addEventListener("click", () => {
+                const targetId = button.getAttribute("data-target")!;
+                const answer = document.getElementById(targetId);
+                const arrow = button.querySelector(".arrow")!;
+
+                if (answer) {
+                    const isOpen = answer.classList.toggle("open");
+
+                    if (isOpen) {
+                        answer.style.maxHeight = answer.scrollHeight + "px";
+                        arrow.classList.add("rotated");
+                    } else {
+                        answer.style.maxHeight = "0px";
+                        arrow.classList.remove("rotated");
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+<style lang="scss">
+    #FAQ {
+        margin-top: 2rem;
+
+        > div {
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 1rem;
+
+            .question {
+                background: none;
+                border: none;
+                font-size: 1.1rem;
+                font-weight: bold;
+                cursor: pointer;
+                width: 100%;
+                text-align: left;
+                padding: 0.5rem 0;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                color: black;
+
+                .arrow {
+                    display: inline-block;
+                    transition: transform 0.3s ease;
+                    font-size: 1rem;
+
+                    &.rotated {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+
+            .answer {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+
+                .open {
+                    padding-top: 0.5rem;
+                }
+            }
+        }
+    }
+</style>

@@ -1,0 +1,100 @@
+---
+import Nav from "../components/Nav.astro";
+import Header from "../components/Header.astro";
+import Information from "../components/Information.astro";
+import Inschrijven from "../components/Inschrijven.astro";
+import Theme from "../components/Theme.astro";
+import Association from "../components/Association.astro";
+import Smallprint from "../components/Smallprint.astro";
+import Contact from "../components/Contact.astro";
+import { Footer } from "@svsticky/components";
+import FAQ from "../components/FAQ.astro";
+import Layout from "../components/Layout.astro";
+---
+
+<Layout>
+    <Nav />
+    <Header />
+    <main>
+        <Information />
+        <Inschrijven />
+        <Theme />
+        <Association />
+        <FAQ />
+        <Contact />
+        <Smallprint />
+    </main>
+    <Footer />
+</Layout>
+
+<style lang="scss" is:global>
+    @use '../common';
+
+    p {
+        margin-bottom: 1rem;
+    }
+
+    h1 {
+        font-size: clamp(2rem, 5vw, 2.5rem);
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+    h2 {
+        font-size: clamp(1.75rem, 4.5vw, 2rem);
+        margin-top: .5rem;
+        margin-bottom: .5rem;
+    }
+    h3 {
+        font-size: clamp(1.5rem, 4vw, 1.5rem);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        hyphens: auto;
+
+        > strong, > b {
+            color: common.$board-colour;
+            font-weight: bold;
+        }
+    }
+
+    a {
+        color: common.$board-colour;
+    }
+
+    /* PAGE LAYOUT STYLES */
+
+    #signup ~ * {
+        z-index: 20;
+    }
+
+    main {
+        width: 90vw;
+        max-width: 1200px;
+        margin: 0 auto;
+        overflow: visible;
+        line-height: 1.4;
+        color: #242424;
+
+        > section {
+            position: relative;
+        }
+    }
+
+    @media screen and (min-width: 800px) {
+        main {
+            width: 75vw;
+        }
+    }
+
+    li {
+        p {
+            margin-top: 0;
+            margin-bottom: .5rem;
+        }
+    }
+</style>

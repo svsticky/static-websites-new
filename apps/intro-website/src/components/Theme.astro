@@ -1,0 +1,105 @@
+---
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+import sdk from "../sdk";
+import { Image } from "astro-preload/components";
+import type { Media, Supermentor } from "@svsticky/content";
+
+const theme = await sdk.findGlobal({ slug: "theme" });
+---
+
+<section id="theme">
+    <div set:html={convertLexicalToHTML({ data: theme.Content! })} />
+
+    <div set:html={convertLexicalToHTML({ data: theme.Reveal! })} />
+    <!-- {
+        theme.reveal!.map((node) => {
+            if (node.nodeType === "embedded-asset-block") {
+                const asset = node.data.target;
+                const url = asset.fields.file.url;
+                const alt = asset.fields.description || "Thema afbeelding";
+
+                return (
+                    <div class="theme-box">
+                        <img src={url} alt={alt} />
+                    </div>
+                );
+            }
+        })
+    } -->
+
+    { theme["Supermentor Text"] &&
+        <div set:html={convertLexicalToHTML({ data: theme["Supermentor Text"]! })} /> }
+
+    <div class="supermentors">
+        {
+            (theme["Supermentors"]! as Supermentor[]).map(
+                (mentor) =>
+                    mentor && (
+                        <div class="supermentor">
+                            <h3>{mentor.Name}</h3>
+                            <div class="mentor-content">
+                                <Image
+                                    url={
+                                        "http://localhost:3000"
+                                        + (mentor.Picture as Media).url
+                                    }
+                                    alt={(mentor.Picture as Media).alt}
+                                />
+                                <div
+                                    set:html={convertLexicalToHTML(
+                                        { data: mentor.Content! }
+                                    )}
+                                />
+                            </div>
+                        </div>
+                    ),
+            )
+        }
+    </div>
+</section>
+
+<style lang="scss">
+    .supermentor {
+        overflow: auto;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #e0e0e0;
+
+        h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .mentor-content {
+            position: relative;
+            overflow: auto;
+
+            img {
+                float: right;
+                width: 50%;
+                max-width: 200px;
+                height: auto;
+                object-fit: cover;
+                border-radius: 0.5rem;
+                margin-bottom: 0.5rem;
+                margin-left: 1rem;
+                clear: both;
+                display: inline-block;
+                aspect-ratio: 1 / 1;
+            }
+        }
+    }
+
+    .theme-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2rem 0;
+        width: 100%;
+
+        img {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 0.5rem;
+        }
+    }
+</style>

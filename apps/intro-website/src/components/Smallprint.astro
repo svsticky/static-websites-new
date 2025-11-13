@@ -1,0 +1,11 @@
+---
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+import sdk from "../sdk";
+
+const smallprint = await sdk.findGlobal({ slug: "smallprint" });
+---
+
+<section
+    id="smallprint"
+    set:html={convertLexicalToHTML({ data: smallprint["Content"]! })}
+/>

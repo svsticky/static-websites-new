@@ -1,0 +1,75 @@
+---
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+import sdk from "../sdk";
+import { Hero } from "@svsticky/components";
+import type { Media } from "@svsticky/content";
+
+const hero = await sdk.findGlobal({ slug: "hero" });
+const images = (hero.pictures! as Media[]).map((image) => (
+    { url: "http://localhost:3000" + image.url!
+    , title: image.alt
+    }
+));
+---
+
+<header>
+    <div class="header-background background-top"></div>
+    <div class="header-background background-bottom"></div>
+    <Hero images={images}>
+        <div
+            class="hero-text"
+            set:html={convertLexicalToHTML({ data: hero.Content! })}
+        />
+    </Hero>
+</header>
+
+<style lang="scss">
+    @use '../common';
+
+    header {
+        height: calc(100vh - 6rem);
+        width: 100vw;
+        color: white;
+        position: relative;
+
+        .header-background {
+            display: none;
+            background: common.$board-colour;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+
+            --bg-height: 60%;
+
+            &.background-top {
+                height: var(--bg-height);
+            }
+
+            &.background-bottom {
+                top: calc(var(--bg-height) - 10%);
+                height: 20%;
+                clip-path: ellipse(70% 50%);
+            }
+        }
+    }
+
+    .hero-text {
+        padding: 2vw;
+        text-shadow: 1.25px 1.25px #82807d;
+    }
+
+    @media screen and (min-width: 650px) {
+        header {
+            height: 60vh;
+
+            .header-background {
+                display: block;
+            }
+        }
+
+        .hero-text {
+            width: 50%;
+        }
+    }
+</style>

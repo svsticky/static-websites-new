@@ -27,6 +27,4 @@ pnpm-debug.log*
 # vim swap files
 *.swp
 
-# generated graphql schema files
-src/graphql/rawSdk.ts
-schema.gql
+.vscode

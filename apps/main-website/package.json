@@ -1,0 +1,23 @@
+{
+  "name": "@svsticky/main-website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "npm run codegen && astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@fontsource/outfit": "^5.2.8",
+    "@payloadcms/sdk": "^3.63.0",
+    "@svsticky/components": "workspace:*",
+    "@svsticky/content": "workspace:*",
+    "astro": "^5.13.5",
+    "payload": "3.63.0"
+  },
+  "devDependencies": {
+    "@parcel/watcher": "^2.5.1",
+    "sass-embedded": "^1.93.2"
+  }
+}

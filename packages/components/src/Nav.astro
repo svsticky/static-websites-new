@@ -1,0 +1,63 @@
+---
+type NavLink = { title: string, url: string };
+type NavMenu = { title: string, items: NavLink[] };
+type NavItem = NavMenu | NavLink; 
+
+function isNavMenu(item: any): item is NavMenu {
+    return !!item.items;
+}
+
+function isExternalUrl(url: string): boolean {
+    return url.startsWith("http://") || url.startsWith("https://") || url.startsWith("//");
+}
+
+interface Props {
+    items: NavItem[];
+}
+
+const { items } = Astro.props as Props;
+---
+
+<nav>
+    <ul>
+        {items.map((item) => (
+            <li>
+                {isNavMenu(item)
+                    ? <span>{item.title} v</span>
+                    :
+                        <a href={item.url}>
+                            {item.title}
+                            {isExternalUrl(item.url) && "(external)"}
+                        </a>
+                }
+                {isNavMenu(item) &&
+                    <ul>
+                        {item.items.map((item) => (
+                            <li>
+                                <a href={item.url}>
+                                    {item.title}
+                                    {isExternalUrl(item.url) && "(external)"}
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                }
+            </li>
+        ))}
+    </ul>
+</nav>
+
+<script>
+    const navMenus = document.querySelectorAll("nav li:has(> ul)");
+    for (const menu of navMenus) {
+        menu.addEventListener("click", (_) => {
+            for (const otherMenu of navMenus) {
+                const menuView = otherMenu.querySelector("ul");
+                if (otherMenu === menu)
+                    menuView.classList.toggle("open");
+                else
+                    menuView.classList.remove("open");
+            }
+        });
+    }
+</script>

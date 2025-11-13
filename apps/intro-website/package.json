@@ -1,0 +1,28 @@
+{
+  "name": "@svsticky/intro-website",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@contentful/rich-text-html-renderer": "^17.0.0",
+    "@contentful/rich-text-types": "^17.2.4",
+    "@fontsource/outfit": "^5.2.5",
+    "@payloadcms/richtext-lexical": "3.63.0",
+    "@payloadcms/sdk": "^3.63.0",
+    "@playform/compress": "^0.1.9",
+    "@svsticky/components": "workspace:*",
+    "@svsticky/content": "workspace:*",
+    "astro": "^5.4.3",
+    "astro-favicons": "^3.1.5",
+    "astro-preload": "^1.1.2",
+    "autoprefixer": "^10.4.21",
+    "contentful": "^11.5.6",
+    "cssnano": "^7.0.6",
+    "sass": "^1.85.1"
+  }
+}
