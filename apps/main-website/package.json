@@ -13,7 +13,7 @@
     "@payloadcms/sdk": "^3.63.0",
     "@svsticky/components": "workspace:*",
     "@svsticky/content": "workspace:*",
-    "astro": "^5.13.5",
+    "astro": "^5.15.6",
     "payload": "3.63.0"
   },
   "devDependencies": {

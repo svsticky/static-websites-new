@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "apps/main-website"
+		},
+		{
+			"path": "apps/payload"
+		},
+		{
+			"path": "packages/components"
+		}
+	],
+	"settings": {}
+}

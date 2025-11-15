@@ -1,38 +1,20 @@
 ---
 import type { GetStaticPaths } from "astro";
-import Nav from "../../components/nav.astro";
-import Header from "../../components/header.astro";
-import { Footer } from "@svsticky/components";
 import Layout from "../../components/layout.astro";
+
+import sdk from "../../sdk";
 
 export const getStaticPaths = (() =>
     [{ params: { lang: "nl-NL" } }, { params: { lang: "en-US" } }]
 ) satisfies GetStaticPaths;
 
-import { PayloadSDK } from "@payloadcms/sdk";
-import { type Config } from "@svsticky/content";
-
-const sdk = new PayloadSDK<Config>({
-    baseURL: "http://localhost:4322/api",
-    baseInit: {
-        headers: {
-            "Authorization": "users API-Key f7af8480-fecc-41bd-b534-0355d0181885"
-        }
-    }
-});
 const media = await sdk.find({ collection: "media" });
 ---
 
 <Layout>
-    <ul>
-        {media.docs.map(m => <li><img src={`http://localhost:4322/${m.url}`} /></li>)}
-    </ul>
-    <!-- <Nav />
-    <Header />
     <main>
         <h1>Welkom op de dikke <b>conjowebsite!</b></h1>
     </main>
-    <Footer /> -->
 </Layout>
 
 <style lang="scss" is:global>

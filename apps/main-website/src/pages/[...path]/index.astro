@@ -1,0 +1,28 @@
+---
+import Layout from "../../components/layout.astro";
+import Nav from "../../components/nav.astro";
+import { Footer } from "@svsticky/components";
+
+import routes from "./routes";
+import type { GetStaticPaths } from "astro";
+
+export const getStaticPaths = (() => {
+    return routes.flatMap(route => [
+        { params: { path: "nl/" + route.url }, props: { lang: "nl" } },
+        { params: { path: "en/" + route.url }, props: { lang: "en" } },
+    ]);
+}) satisfies GetStaticPaths;
+
+const { path } = Astro.params;
+const nonLocalisedPath = path.slice(3);
+
+const { lang } = Astro.props;
+const Component = routes.find(route => route.url === nonLocalisedPath)!.component;
+---
+
+<Layout>
+    <Nav />
+    <h1>{lang}</h1>
+    <Component />
+    <Footer />
+</Layout>
