@@ -1,21 +1,15 @@
 ---
-import type { GetStaticPaths } from "astro";
-import Layout from "../../components/layout.astro";
+import type { Config } from "@svsticky/content";
+const { lang } = Astro.props as { lang: Config["locale"] };
+import Header from "../components/header.astro";
 
-import sdk from "../../sdk";
-
-export const getStaticPaths = (() =>
-    [{ params: { lang: "nl-NL" } }, { params: { lang: "en-US" } }]
-) satisfies GetStaticPaths;
-
-const media = await sdk.find({ collection: "media" });
+import sdk from "../sdk";
 ---
 
-<Layout>
-    <main>
-        <h1>Welkom op de dikke <b>conjowebsite!</b></h1>
-    </main>
-</Layout>
+<Header lang={lang} />
+<main>
+    <h1>Welkom op de dikke <b>conjowebsite!</b></h1>
+</main>
 
 <style lang="scss" is:global>
 

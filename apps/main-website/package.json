@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@fontsource/outfit": "^5.2.8",
+    "@payloadcms/richtext-lexical": "3.63.0",
     "@payloadcms/sdk": "^3.63.0",
     "@svsticky/components": "workspace:*",
     "@svsticky/content": "workspace:*",

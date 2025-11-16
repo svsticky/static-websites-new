@@ -14,7 +14,8 @@ import { Person } from './intro/Person'
 import { FAQQuestion } from './intro/FAQQuestion'
 import { FAQ } from './intro/FAQ'
 import { Supermentor } from './intro/Supermentor'
-import { Hero } from './intro/Hero'
+import { Hero as IntroHero } from './intro/Hero'
+import { Hero as MainHero } from './main/Hero'
 import { Information } from './intro/Information'
 import { Signup } from './intro/Signup'
 import { SmallPrint } from './intro/SmallPrint'
@@ -42,7 +43,11 @@ export default buildConfig({
     }
   },
   collections: [Users, Media, Person, FAQQuestion, Supermentor, Ad, BoardMessage, Quote],
-  globals: [Association, Contact, FAQ, Hero, Information, Signup, SmallPrint, Theme],
+  globals: [Association, Contact, FAQ, IntroHero, Information, Signup, SmallPrint, Theme, MainHero],
+  localization: {
+    locales: ["nl", "en"],
+    defaultLocale: "nl"
+  },
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

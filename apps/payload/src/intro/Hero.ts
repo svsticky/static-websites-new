@@ -1,9 +1,10 @@
 import { GlobalConfig } from "payload";
 
 export const Hero: GlobalConfig = {
-    slug: "hero",
+    slug: "intro-hero",
+    label: "Hero",
     admin: {
-        group: "Intro website"
+        group: "Intro website",
     },
     versions: {
         drafts: true

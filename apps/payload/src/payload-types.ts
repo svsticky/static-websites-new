@@ -102,23 +102,25 @@ export interface Config {
     association: Association;
     contact: Contact;
     faq: Faq;
-    hero: Hero;
+    'intro-hero': IntroHero;
     information: Information;
     signup: Signup;
     smallprint: Smallprint;
     theme: Theme;
+    'main-hero': MainHero;
   };
   globalsSelect: {
     association: AssociationSelect<false> | AssociationSelect<true>;
     contact: ContactSelect<false> | ContactSelect<true>;
     faq: FaqSelect<false> | FaqSelect<true>;
-    hero: HeroSelect<false> | HeroSelect<true>;
+    'intro-hero': IntroHeroSelect<false> | IntroHeroSelect<true>;
     information: InformationSelect<false> | InformationSelect<true>;
     signup: SignupSelect<false> | SignupSelect<true>;
     smallprint: SmallprintSelect<false> | SmallprintSelect<true>;
     theme: ThemeSelect<false> | ThemeSelect<true>;
+    'main-hero': MainHeroSelect<false> | MainHeroSelect<true>;
   };
-  locale: null;
+  locale: 'nl' | 'en';
   user: User & {
     collection: 'users';
   };
@@ -636,9 +638,9 @@ export interface Faq {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hero".
+ * via the `definition` "intro-hero".
  */
-export interface Hero {
+export interface IntroHero {
   id: number;
   Content?: {
     root: {
@@ -796,6 +798,39 @@ export interface Theme {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-hero".
+ */
+export interface MainHero {
+  id: number;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  pictures: (number | Media)[];
+  buttons?:
+    | {
+        label: string;
+        link: string;
+        id?: string | null;
+      }[]
+    | null;
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "association_select".
  */
 export interface AssociationSelect<T extends boolean = true> {
@@ -832,9 +867,9 @@ export interface FaqSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "hero_select".
+ * via the `definition` "intro-hero_select".
  */
-export interface HeroSelect<T extends boolean = true> {
+export interface IntroHeroSelect<T extends boolean = true> {
   Content?: T;
   pictures?: T;
   _status?: T;
@@ -887,6 +922,25 @@ export interface ThemeSelect<T extends boolean = true> {
   Reveal?: T;
   'Supermentor Text'?: T;
   Supermentors?: T;
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-hero_select".
+ */
+export interface MainHeroSelect<T extends boolean = true> {
+  content?: T;
+  pictures?: T;
+  buttons?:
+    | T
+    | {
+        label?: T;
+        link?: T;
+        id?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

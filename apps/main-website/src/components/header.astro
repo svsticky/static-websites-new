@@ -1,5 +1,17 @@
 ---
+const { lang } = Astro.props as { lang: Config["locale"] };
+import type { Config, Media } from "@svsticky/content";
+import sdk from "../sdk";
+import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html';
 
+const hero = await sdk.findGlobal({ slug: "main-hero", locale: lang });
+const buttons = hero.buttons ?? [];
+
+function internationaliseLink(url: string) {
+    return url.startsWith("/")
+        ? `/${lang}/${url}`
+        : url;
+}
 ---
 
 <header>
@@ -7,25 +19,22 @@
     <div class="header-background background-bottom"></div>
     <div class="hero">
         <div class="carousel">
-            {
-                    <div class="carousel-item">
-                        <img
-                            src="https://intro.svsticky.nl/assets/preloaded/d1288181-f1dd-499a-aa10-be5bc6f46395_o.jpg"
-                            alt=""
-                        />
-                        <p>
-                            <strong>Foto:</strong>
-                        </p>
-                    </div>
-            }
+            {(hero.pictures as Media[]).map(picture =>
+                <div class="carousel-item">
+                    <img src={picture.url} alt={picture.alt} />
+                    <p>
+                        <strong>Foto: {picture.alt}</strong>
+                    </p>
+                </div>
+            )}
         </div>
-        <div
-            class="hero-text"
-        >
-            <h1>Website yeah</h1>
-            <p>
-                COnjo
-            </p>
+        <div class="hero-text">
+            <div set:html={convertLexicalToHTML({ data: hero.content })}></div>
+            <div class="buttons">
+                {buttons.map(({ label, link }) => (
+                    <a href={internationaliseLink(link)}>{label}</a>
+                ))}
+            </div>
         </div>
     </div>
 </header>
@@ -66,7 +75,6 @@
 </script>
 
 <style lang="scss">
-
     header {
         height: calc(100vh - 6rem);
         width: 100vw;
@@ -135,6 +143,28 @@
                 left: 0;
                 padding: 2vw;
                 text-shadow: 1.25px 1.25px #82807d;
+                height: calc(100vh - 6rem - 4vw);
+
+                .buttons {
+                    position: absolute;
+                    bottom: calc(1rem + 3px);
+
+                    a {
+                        background-color: #fa6b20;
+                        padding: .75rem 1.5rem;
+                        border-radius: .25rem;
+                        color: white;
+                        text-decoration: none;
+                        text-shadow: none;
+                        transition: transform 0.2s ease, opacity 0.2s ease;
+                        display: inline-block;
+
+                        &:hover {
+                            opacity: 0.8;
+                            transform: translateY(-3px);
+                        }
+                    }
+                }
             }
         }
     }
@@ -170,6 +200,7 @@
 
                 .hero-text {
                     width: 50%;
+                    height: calc(60vh - 4vw);
                 }
             }
         }
