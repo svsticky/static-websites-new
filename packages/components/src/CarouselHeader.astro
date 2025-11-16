@@ -1,17 +1,15 @@
 ---
-const { lang } = Astro.props as { lang: Config["locale"] };
-import type { Config, Media } from "@svsticky/content";
-import sdk from "../sdk";
-import { convertLexicalToHTML } from '@payloadcms/richtext-lexical/html';
+import { Image } from "astro-preload/components";
 
-const hero = await sdk.findGlobal({ slug: "main-hero", locale: lang });
-const buttons = hero.buttons ?? [];
+type Image = { url: string, title: string };
+type Button = { label: string, link: string };
 
-function internationaliseLink(url: string) {
-    return url.startsWith("/")
-        ? `/${lang}/${url}`
-        : url;
+interface Props {
+    images: Image[];
+    buttons?: Button[] | null;
 }
+
+const { images, buttons } = Astro.props as Props;
 ---
 
 <header>
@@ -19,20 +17,27 @@ function internationaliseLink(url: string) {
     <div class="header-background background-bottom"></div>
     <div class="hero">
         <div class="carousel">
-            {(hero.pictures as Media[]).map(picture =>
-                <div class="carousel-item">
-                    <img src={picture.url} alt={picture.alt} />
-                    <p>
-                        <strong>Foto: {picture.alt}</strong>
-                    </p>
-                </div>
-            )}
+            {
+                images.map((image) => (
+                    <div class="carousel-item">
+                        <Image
+                            url={image.url}
+                            alt={image.title}
+                        />
+                        <p>
+                            <strong>Foto:</strong> {image.title}
+                        </p>
+                    </div>
+                ))
+            }
         </div>
         <div class="hero-text">
-            <div set:html={convertLexicalToHTML({ data: hero.content })}></div>
+            <div>
+                <slot />
+            </div>
             <div class="buttons">
-                {buttons.map(({ label, link }) => (
-                    <a href={internationaliseLink(link)}>{label}</a>
+                {buttons?.map(({ label, link }) => (
+                    <a href={link}>{label}</a>
                 ))}
             </div>
         </div>
@@ -83,7 +88,7 @@ function internationaliseLink(url: string) {
 
         .header-background {
             display: none;
-            background: #61518f;
+            background: #fa6b20;
             width: 100%;
             position: absolute;
             top: 0;
@@ -148,6 +153,8 @@ function internationaliseLink(url: string) {
                 .buttons {
                     position: absolute;
                     bottom: calc(1rem + 3px);
+                    display: flex;
+                    gap: 1rem;
 
                     a {
                         background-color: #fa6b20;

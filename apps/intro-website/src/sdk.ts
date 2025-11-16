@@ -5,7 +5,7 @@ export default new PayloadSDK<Config>({
     baseURL: "http://localhost:3000/api",
     baseInit: {
         headers: {
-            Authorization: "users API-Key b92e2726-b064-4485-b9a6-31775478bb9c"
+            Authorization: "users API-Key 7537b948-68b1-4bff-9787-001dfce414bb"
         }
     }
 });

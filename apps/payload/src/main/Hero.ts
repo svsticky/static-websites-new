@@ -44,7 +44,7 @@ export const Hero: GlobalConfig = {
                         } else {
                             try {
                                 const url = new URL(value);
-                                if (!(url.protocol === "http" || url.protocol === "https"))
+                                if (!(url.protocol === "http:" || url.protocol === "https:"))
                                     return "Invalid protocol";
                                 return true;
                             } catch {

@@ -1,4 +1,2 @@
-import FooterComponent from "./src/Footer.astro";
-import HeroComponent from "./src/Hero.astro";
-export const Footer = FooterComponent;
-export const Hero = HeroComponent;
+export { default as Footer } from "./src/Footer.astro";
+export { default as CarouselHeader } from "./src/CarouselHeader.astro";

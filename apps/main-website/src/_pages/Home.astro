@@ -1,12 +1,19 @@
 ---
-import type { Config } from "@svsticky/content";
-const { lang } = Astro.props as { lang: Config["locale"] };
-import Header from "../components/header.astro";
+import type { Config, Media } from "@svsticky/content";
+import { CarouselHeader } from "@svsticky/components";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
 import sdk from "../sdk";
+
+const { lang } = Astro.props as { lang: Config["locale"] };
+
+const hero = await sdk.findGlobal({ slug: "main-hero", locale: lang });
+const images = (hero.pictures as Media[]).map(picture => ({ title: picture.alt, url: picture.url! }));
 ---
 
-<Header lang={lang} />
+<CarouselHeader images={images} buttons={hero.buttons}>
+    <div set:html={convertLexicalToHTML({data: hero.content})}></div>
+</CarouselHeader>
 <main>
     <h1>Welkom op de dikke <b>conjowebsite!</b></h1>
 </main>
@@ -40,13 +47,13 @@ import sdk from "../sdk";
         hyphens: auto;
 
         > strong, > b {
-            color: #61518f;
+            color: #fa6b20;
             font-weight: bold;
         }
     }
 
     a {
-        color: #61518f;
+        color: #fa6b20;
     }
 
     /* PAGE LAYOUT STYLES */

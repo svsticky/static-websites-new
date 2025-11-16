@@ -8,6 +8,9 @@
 		},
 		{
 			"path": "packages/components"
+		},
+		{
+			"path": "apps/intro-website"
 		}
 	],
 	"settings": {}
