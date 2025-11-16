@@ -1,5 +1,5 @@
 ---
-import Layout from "../../components/layout.astro";
+import "@fontsource/outfit";
 import Nav from "../../components/nav.astro";
 import { Footer } from "@svsticky/components";
 
@@ -18,11 +18,32 @@ const { path } = Astro.params;
 const nonLocalisedPath = path.slice(3);
 
 const { lang } = Astro.props as { lang: Config["locale"] };
-const Component = routes.find(route => route.url === nonLocalisedPath)!.component;
+const { title, component: Component } = routes.find(route => route.url === nonLocalisedPath)!;
 ---
 
-<Layout>
-    <Nav />
-    <Component lang={lang} />
-    <Footer />
-</Layout>
+<!doctype html>
+<html lang="nl">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{title[lang]}</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    </head>
+    <body>
+        <Nav />
+        <Component lang={lang} />
+        <Footer />
+    </body>
+</html>
+
+<style is:global>
+    html,
+    body {
+        margin: 0;
+        width: 100%;
+        height: auto;
+        font-family: "Outfit Variable", "Arial", "sans-serif";
+        overflow-x: hidden;
+    }
+</style>
