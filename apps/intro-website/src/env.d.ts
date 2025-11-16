@@ -1,6 +1,4 @@
 interface ImportMetaEnv {
-    readonly CONTENTFUL_SPACE_ID: string;
-    readonly CONTENTFUL_DELIVERY_TOKEN: string;
-    readonly CONTENTFUL_PREVIEW_TOKEN: string;
-    readonly CONTENTFUL_ENVIRONMENT: string;
+    readonly SECRET_PAYLOAD_URL: string;
+    readonly SECRET_PAYLOAD_API_KEY: string;
 }
