@@ -12,84 +12,579 @@ const images = (hero.pictures as Media[]).map(picture => ({ title: picture.alt, 
 ---
 
 <CarouselHeader images={images} buttons={hero.buttons}>
-    <div set:html={convertLexicalToHTML({data: hero.content})}></div>
+  <div set:html={convertLexicalToHTML({ data: hero.content })}></div>
 </CarouselHeader>
+
 <main>
-    <h1>Welkom op de dikke <b>conjowebsite!</b></h1>
+  <!-- =========================================================== -->
+  <!-- ==================== Statistieken ========================= -->
+  <!-- =========================================================== -->
+
+  <section class="stats-section">
+    <div class="stats-wrapper">
+      <div class="stat">
+        <span class="stat-number" data-target="2000" data-type="plus">0</span>
+        <span class="stat-label">Leden</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-number" data-target="25" data-type="number">0</span>
+        <span class="stat-label">Commissies & werkgroepen</span>
+      </div>
+
+      <div class="stat">
+        <span class="stat-number" data-target="80" data-type="percent">0</span>
+        <span class="stat-label">Van de eerstejaars wordt lid</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================== -->
+  <!-- ==================== SPONSOR MARQUEE ====================== -->
+  <!-- =========================================================== -->
+
+  <h1>Partners van <b>Studievereniging Sticky</b></h1>
+
+  <!-- Dummy sponsor company's -->
+   
+  <section class="sponsor-marquee">
+    <div class="marquee-track">
+      <img src="https://support.rentman.io/hc/theming_assets/01K248YMEMEYFHP29FYQY60WX7" alt="Rentman" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" />
+      <img src="https://netcompany.com/wp-content/uploads/2023/05/netcompany-opengraph.png" alt="Netcompany" />
+
+      <!-- Duplicate for infinite looping -->
+      <img src="https://support.rentman.io/hc/theming_assets/01K248YMEMEYFHP29FYQY60WX7" alt="Rentman" />
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" />
+      <img src="https://netcompany.com/wp-content/uploads/2023/05/netcompany-opengraph.png" alt="Netcompany" />
+    </div>
+  </section>
+
+  <!-- =========================================================== -->
+  <!-- ====================== NIEUWS SLIDER ====================== -->
+  <!-- =========================================================== -->
+
+  <section class="news-carousel">
+    <h1>Laatste <b>nieuws</b></h1>
+
+    <button class="carousel-btn news-left">‹</button>
+    <button class="carousel-btn news-right">›</button>
+
+    <div class="news-track">
+      <article class="news-card">
+        <h3>Het nieuwe academische jaar is begonnen!</h3>
+        <time>2025-09-01</time>
+        <p>We hopen dat jullie een fijne vakantie hebben gehad...</p>
+        <a href="/nieuws/1" class="readmore">Lees verder</a>
+      </article>
+
+      <article class="news-card">
+        <h3>Kaartverkoop introductie 2025–2026 gestart!</h3>
+        <time>2025-06-04</time>
+        <p>Het thema dit jaar is Mario...</p>
+        <a href="/nieuws/2" class="readmore">Lees verder</a>
+      </article>
+
+      <article class="news-card">
+        <h3>Het 11e KKB is bekend!</h3>
+        <time>2025-05-12</time>
+        <p>De bekendmaking van het 11e kandidaatsbestuur...</p>
+        <a href="/nieuws/3" class="readmore">Lees verder</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- =========================================================== -->
+  <!-- ==================== Borrel + Vacature ===================== -->
+  <!-- =========================================================== -->
+
+  <section class="section info-columns">
+
+    <!-- 1/3 Borrel -->
+    <div class="info-box">
+      <h2>Wekelijkse borrel</h2>
+      <div class="info-card">
+        <p>
+          Elke week is er een borrel om 17:00 in de Vagant waar je even kunt socialisen met je mede-leden.
+          De borrels zijn iedere <strong>woensdag</strong>!
+        </p>
+      </div>
+    </div>
+
+    <!-- 2/3 Vacature -->
+    <div class="info-box">
+      <h2>Uitgelichte vacature</h2>
+
+      <div class="info-card job">
+        <div class="job-content">
+          <img
+            src="https://harvest.nl/wp-content/uploads/2023/11/cropped-harvest-share.png"
+            alt="Harvest logo"
+            class="job-logo"
+          />
+
+          <div class="job-text">
+            <h3>Harvest high-potential programma Software</h3>
+            <p>
+              Bij Harvest bieden we een technisch post-masterprogramma van topklasse,
+              speciaal ontworpen om high potentials in software een raketstart van hun carrière te geven.
+            </p>
+
+            <a href="/vacatures" class="info-button">Meer vacatures</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================== -->
+  <!-- ================= ACTIVITEITEN SLIDER ===================== -->
+  <!-- =========================================================== -->
+
+  <section class="activities-carousel">
+    <h1>Komende <b>activiteiten</b></h1>
+
+    <button class="carousel-btn act-left">‹</button>
+    <button class="carousel-btn act-right">›</button>
+
+    <div class="activities-track">
+      <article class="activity-card">
+        <img src="https://koala.svsticky.nl/api/activities/2125/poster" alt="Karaoke Drinks" />
+      </article>
+
+      <article class="activity-card">
+        <img src="https://koala.svsticky.nl/api/activities/2122/poster" alt="St. Patricks Day" />
+      </article>
+
+      <article class="activity-card">
+        <img src="https://koala.svsticky.nl/api/activities/2121/poster" alt="Origami cursus" />
+      </article>
+
+      <article class="activity-card">
+        <img src="https://koala.svsticky.nl/api/activities/2120/poster" alt="Extra Activity" />
+      </article>
+
+      <article class="activity-card">
+        <img src="https://koala.svsticky.nl/api/activities/2119/poster" alt="Extra Activity 2" />
+      </article>
+    </div>
+
+    <a href="/activiteiten" class="all-activities-btn">Bekijk alle activiteiten</a>
+  </section>
+
+
 </main>
 
+<!-- =========================================================== -->
+<!-- ============================ CSS ========================== -->
+<!-- =========================================================== -->
+
 <style lang="scss" is:global>
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
 
-    p {
-        margin-bottom: 1rem;
-    }
+h1, h2, h3 {
+  hyphens: auto;
+}
 
-    h1 {
-        font-size: clamp(2rem, 5vw, 2.5rem);
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-    h2 {
-        font-size: clamp(1.75rem, 4.5vw, 2rem);
-        margin-top: .5rem;
-        margin-bottom: .5rem;
-    }
-    h3 {
-        font-size: clamp(1.5rem, 4vw, 1.5rem);
-    }
+h1 b, h2 b, h3 b {
+  color: #fa6b20;
+}
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        hyphens: auto;
+/* =========================================================== */
+/* ======================= STAT COUNTER ====================== */
+/* =========================================================== */
 
-        > strong, > b {
-            color: #fa6b20;
-            font-weight: bold;
-        }
-    }
+.stats-section {
+  width: 100%;
+  margin: 2rem 0 3rem;
+}
 
-    a {
-        color: #fa6b20;
-    }
+.stats-wrapper {
+  display: flex;
+  justify-content: space-between;
+  gap: 3rem;
+  text-align: center;
+}
 
-    /* PAGE LAYOUT STYLES */
+.stat {
+  flex: 1 1 33%;
+  background: white;
+  padding: 2.8rem 1rem;
+  border-radius: 2rem;
+  box-shadow:
+    0 1.2rem 3rem rgba(0,0,0,0.06),
+    0 0.6rem 1.5rem rgba(0,0,0,0.04);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
-    #signup ~ * {
-        z-index: 20;
-    }
+.stat-number {
+  font-size: 3.6rem;
+  font-weight: 800;
+  color: #fa6b20;
+  display: block;
+  margin-bottom: 0.8rem;
+}
 
-    main {
-        width: 90vw;
-        max-width: 1200px;
-        margin: 0 auto;
-        overflow: visible;
-        line-height: 1.4;
-        color: #242424;
+.stat-label {
+  display: block;
+  font-size: 1.3rem;
+  opacity: 0.9;
+}
 
-        > section {
-            position: relative;
-        }
-    }
+@media (max-width: 750px) {
+  .stats-wrapper {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
 
-    @media screen and (min-width: 800px) {
-        main {
-            width: 75vw;
-        }
-    }
+  .stat {
+    padding: 2.4rem 1.4rem;
+  }
 
-    li {
-        p {
-            margin-top: 0;
-            margin-bottom: .5rem;
-        }
-    }
+  .stat-number {
+    font-size: 2.8rem;
+  }
+}
 
-    html,body {
-        margin: 0;
-        padding: 0;
-    }
+/* =========================================================== */
+/* ===================== ACTIVITEITEN SLIDER ================= */
+/* =========================================================== */
+
+.activities-carousel {
+  position: relative;
+  margin: 3rem 0;
+}
+
+.activities-track {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-behavior: smooth;
+  padding: 1rem 0 2rem;
+}
+
+.activities-track::-webkit-scrollbar {
+  display: none;
+}
+
+.activity-card {
+  flex: 0 0 20%;
+  background: white;
+  border-radius: 1.4rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.12);
+  overflow: hidden;
+}
+
+.activity-card img {
+  width: 100%;
+  display: block;
+}
+
+.all-activities-btn {
+  margin-top: 0.5rem;
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background: #fa6b20;
+  color: white;
+  border-radius: 0.6rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* =========================================================== */
+/* ===================== SPONSOR MARQUEE ===================== */
+/* =========================================================== */
+
+.sponsor-marquee {
+  width: 100%;
+  overflow: hidden;
+  background: white;
+  padding: 1.5rem 0;
+  box-shadow: 0 0 1.5rem rgba(0,0,0,0.05);
+  margin: 3rem 0;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 4rem;
+  animation: scroll 20s linear infinite;
+}
+
+.marquee-track img {
+  height: 3.5rem;
+  object-fit: contain;
+}
+
+.sponsor-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* =========================================================== */
+/* ======================= NIEUWS SLIDER ===================== */
+/* =========================================================== */
+
+.news-carousel {
+  position: relative;
+  margin: 3rem 0 1rem;
+}
+
+.news-track {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto;
+  overflow-y: visible;
+  padding: 1rem 0 2rem;
+  scroll-behavior: smooth;
+}
+
+.news-track::-webkit-scrollbar {
+  display: none;
+}
+
+.news-card {
+  flex: 0 0 22rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 1.4rem;
+  box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.12);
+}
+
+.readmore {
+  margin-top: 1rem;
+  color: #fa6b20;
+  font-weight: bold;
+}
+
+/* =========================================================== */
+/* ========================= BUTTONS ========================== */
+/* =========================================================== */
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: white;
+  border: 0.2rem solid #fa6b20;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.6rem;
+  color: #fa6b20;
+  z-index: 10;
+}
+
+.carousel-btn:hover {
+  background: #fa6b20;
+  color: white;
+}
+
+.act-left  { left: -2rem; }
+.act-right { right: -2rem; }
+
+.news-left  { left: -2rem; }
+.news-right { right: -2rem; }
+
+@media (max-width: 700px) {
+  .carousel-btn {
+    display: none;
+  }
+}
+
+/* =========================================================== */
+/* ===================== INFO 2-COLUMNS ======================= */
+/* =========================================================== */
+
+.info-columns {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 1/3 → 2/3 */
+  gap: 3rem;
+  margin: 4rem 0 5rem;
+}
+
+/* Titel styling */
+.info-box h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+/* Cards */
+.info-card {
+  background: white;
+  padding: 2rem;
+  border-radius: 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  box-shadow:
+    0 1rem 2.5rem rgba(0,0,0,0.06),
+    0 0.4rem 1rem rgba(0,0,0,0.04);
+}
+
+/* ===================== VACATURE BLOCK ===================== */
+
+.job-content {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+}
+
+.job-logo {
+  width: 110px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.job-text h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.35rem;
+}
+
+.job-text p {
+  margin: 0 0 1.25rem;
+  line-height: 1.5;
+}
+
+/* Button */
+.info-button {
+  display: inline-block;
+  padding: 0.8rem 1.6rem;
+  background: #fa6b20;
+  color: white;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.info-button:hover {
+  background: #e45f1c;
+}
+
+/* ===================== MOBILE ===================== */
+
+@media (max-width: 900px) {
+  .info-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .job-content {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .job-logo {
+    margin-bottom: 1rem;
+  }
+
+  .job-text h3 {
+    text-align: center;
+  }
+}
+
+
 </style>
+
+<!-- =========================================================== -->
+<!-- ============================= JS ========================== -->
+<!-- =========================================================== -->
+
+<script>
+// ACTIVITY SLIDER
+const actTrack = document.querySelector(".activities-track");
+const actLeft = document.querySelector(".act-left");
+const actRight = document.querySelector(".act-right");
+
+if (actTrack && actLeft && actRight) {
+  const actScrollAmount = actTrack.clientWidth * 0.2 + 32;
+
+  actLeft.addEventListener("click", () => {
+    actTrack.scrollBy({ left: -actScrollAmount, behavior: "smooth" });
+  });
+
+  actRight.addEventListener("click", () => {
+    actTrack.scrollBy({ left: actScrollAmount, behavior: "smooth" });
+  });
+}
+
+// NEWS SLIDER
+const newsTrack = document.querySelector(".news-track");
+const newsLeft = document.querySelector(".news-left");
+const newsRight = document.querySelector(".news-right");
+
+if (newsTrack && newsLeft && newsRight) {
+  const newsScroll = 22 * 16 + 32;
+
+  newsLeft.addEventListener("click", () => {
+    newsTrack.scrollBy({ left: -newsScroll, behavior: "smooth" });
+  });
+
+  newsRight.addEventListener("click", () => {
+    newsTrack.scrollBy({ left: newsScroll, behavior: "smooth" });
+  });
+}
+
+// STAT COUNTER
+const statNumbers = document.querySelectorAll(".stat-number");
+
+function animateStatCounters(entry) {
+  if (!entry.isIntersecting) return;
+
+  statNumbers.forEach(el => {
+    const target = +el.dataset.target;
+    const type = el.dataset.type;
+    const duration = 2000;
+    const start = performance.now();
+
+    function update(now) {
+      const progress = Math.min((now - start) / duration, 1);
+      const value = Math.floor(progress * target);
+
+      if (type === "percent") {
+        el.textContent = value + "%";
+      } else {
+        el.textContent = value;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(update);
+      } else {
+        if (type === "plus") el.textContent = target + "+";
+        else if (type === "percent") el.textContent = target + "%";
+        else el.textContent = target;
+      }
+    }
+
+    requestAnimationFrame(update);
+  });
+
+  statObserver.disconnect();
+}
+
+const statObserver = new IntersectionObserver(
+  entries => entries.forEach(animateStatCounters),
+  { threshold: 0.3 }
+);
+
+statObserver.observe(document.querySelector(".stats-section"));
+</script>
