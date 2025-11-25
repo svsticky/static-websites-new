@@ -108,6 +108,7 @@ export interface Config {
     smallprint: Smallprint;
     theme: Theme;
     'main-hero': MainHero;
+    'main-stats': MainStat;
   };
   globalsSelect: {
     association: AssociationSelect<false> | AssociationSelect<true>;
@@ -119,6 +120,7 @@ export interface Config {
     smallprint: SmallprintSelect<false> | SmallprintSelect<true>;
     theme: ThemeSelect<false> | ThemeSelect<true>;
     'main-hero': MainHeroSelect<false> | MainHeroSelect<true>;
+    'main-stats': MainStatsSelect<false> | MainStatsSelect<true>;
   };
   locale: 'nl' | 'en';
   user: User & {
@@ -831,6 +833,23 @@ export interface MainHero {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-stats".
+ */
+export interface MainStat {
+  id: number;
+  duration: number;
+  stats: {
+    target: number;
+    unit?: string | null;
+    description: string;
+    include_unit_in_animation: boolean;
+    id?: string | null;
+  }[];
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "association_select".
  */
 export interface AssociationSelect<T extends boolean = true> {
@@ -942,6 +961,25 @@ export interface MainHeroSelect<T extends boolean = true> {
         id?: T;
       };
   _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-stats_select".
+ */
+export interface MainStatsSelect<T extends boolean = true> {
+  duration?: T;
+  stats?:
+    | T
+    | {
+        target?: T;
+        unit?: T;
+        description?: T;
+        include_unit_in_animation?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

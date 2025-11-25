@@ -9,6 +9,8 @@ const { lang } = Astro.props as { lang: Config["locale"] };
 
 const hero = await sdk.findGlobal({ slug: "main-hero", locale: lang });
 const images = (hero.pictures as Media[]).map(picture => ({ title: picture.alt, url: picture.url! }));
+
+const stats = await sdk.findGlobal({ slug: "main-stats", locale: lang });
 ---
 
 <CarouselHeader images={images} buttons={hero.buttons}>
@@ -21,21 +23,18 @@ const images = (hero.pictures as Media[]).map(picture => ({ title: picture.alt, 
   <!-- =========================================================== -->
 
   <section class="stats-section">
-    <div class="stats-wrapper">
-      <div class="stat">
-        <span class="stat-number" data-target="2000" data-type="plus">0</span>
-        <span class="stat-label">Leden</span>
-      </div>
-
-      <div class="stat">
-        <span class="stat-number" data-target="25" data-type="number">0</span>
-        <span class="stat-label">Commissies & werkgroepen</span>
-      </div>
-
-      <div class="stat">
-        <span class="stat-number" data-target="80" data-type="percent">0</span>
-        <span class="stat-label">Van de eerstejaars wordt lid</span>
-      </div>
+    <div class="stats-wrapper" data-duration={stats.duration}>
+      {stats.stats.map(statistic => 
+        <div class="stat">
+            <span
+                class="stat-number"
+                data-target={statistic.target}
+                data-unit={statistic.unit ?? ""}
+                data-include-unit={statistic.include_unit_in_animation}
+            >0</span>
+            <span class="stat-label">{statistic.description}</span>
+        </div>
+      )}
     </div>
   </section>
 
@@ -546,33 +545,26 @@ if (newsTrack && newsLeft && newsRight) {
 
 // STAT COUNTER
 const statNumbers = document.querySelectorAll(".stat-number");
+const statsContainer = document.querySelector(".stats-wrapper")!;
 
 function animateStatCounters(entry) {
   if (!entry.isIntersecting) return;
 
   statNumbers.forEach(el => {
     const target = +el.dataset.target;
-    const type = el.dataset.type;
-    const duration = 2000;
+    const unit = el.dataset.unit;
+    const includeUnit = el.dataset["include-unit"] === "true";
+    const duration = Number(statsContainer.getAttribute("data-duration"));
     const start = performance.now();
 
     function update(now) {
       const progress = Math.min((now - start) / duration, 1);
       const value = Math.floor(progress * target);
 
-      if (type === "percent") {
-        el.textContent = value + "%";
-      } else {
-        el.textContent = value;
-      }
+      el.textContent = value + (includeUnit ? unit : "");
 
-      if (progress < 1) {
-        requestAnimationFrame(update);
-      } else {
-        if (type === "plus") el.textContent = target + "+";
-        else if (type === "percent") el.textContent = target + "%";
-        else el.textContent = target;
-      }
+      if (progress < 1) requestAnimationFrame(update);
+      else el.textContent = value + unit;
     }
 
     requestAnimationFrame(update);
@@ -586,5 +578,5 @@ const statObserver = new IntersectionObserver(
   { threshold: 0.3 }
 );
 
-statObserver.observe(document.querySelector(".stats-section"));
+statObserver.observe(document.querySelector(".stats-section")!);
 </script>
