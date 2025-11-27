@@ -24,6 +24,7 @@ import { Ad } from './radio/Ad'
 import { BoardMessage } from './radio/BoardMessage'
 import { Quote } from './radio/Quote'
 import { Stats } from './main/Stats'
+import { NewsItem } from './main/NewsItem'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -43,7 +44,7 @@ export default buildConfig({
       }
     }
   },
-  collections: [Users, Media, Person, FAQQuestion, Supermentor, Ad, BoardMessage, Quote],
+  collections: [Users, Media, Person, FAQQuestion, Supermentor, Ad, BoardMessage, Quote, NewsItem],
   globals: [Association, Contact, FAQ, IntroHero, Information, Signup, SmallPrint, Theme, MainHero, Stats],
   localization: {
     locales: ["nl", "en"],

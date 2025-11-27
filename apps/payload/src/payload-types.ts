@@ -75,6 +75,7 @@ export interface Config {
     ad: Ad;
     'board-message': BoardMessage;
     quote: Quote;
+    'main-news-item': MainNewsItem;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -90,6 +91,7 @@ export interface Config {
     ad: AdSelect<false> | AdSelect<true>;
     'board-message': BoardMessageSelect<false> | BoardMessageSelect<true>;
     quote: QuoteSelect<false> | QuoteSelect<true>;
+    'main-news-item': MainNewsItemSelect<false> | MainNewsItemSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -309,6 +311,32 @@ export interface Quote {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-news-item".
+ */
+export interface MainNewsItem {
+  id: number;
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -362,6 +390,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'quote';
         value: number | Quote;
+      } | null)
+    | ({
+        relationTo: 'main-news-item';
+        value: number | MainNewsItem;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -516,6 +548,17 @@ export interface BoardMessageSelect<T extends boolean = true> {
 export interface QuoteSelect<T extends boolean = true> {
   text?: T;
   person?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-news-item_select".
+ */
+export interface MainNewsItemSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

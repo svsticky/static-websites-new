@@ -11,6 +11,28 @@ const hero = await sdk.findGlobal({ slug: "main-hero", locale: lang });
 const images = (hero.pictures as Media[]).map(picture => ({ title: picture.alt, url: picture.url! }));
 
 const stats = await sdk.findGlobal({ slug: "main-stats", locale: lang });
+const newsItems = (await sdk.find({ collection: "main-news-item", locale: lang, draft: false, sort: "-updatedAt" })).docs;
+
+function formatDate(d_string: string) {
+    const d = new Date(d_string);
+    return `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
+}
+
+type Node = { type: string, children?: Node[] } & TextNode;
+type TextNode = { type: "text", text: string };
+
+function collectTextNodes(node: Node): string[] {
+  if (node.type === "text")
+    return [node.text];
+  if (node.children)
+    return node.children.flatMap(collectTextNodes)
+  return [];
+}
+
+function formatTextNodes(content: { root: Node }) {
+  const words = collectTextNodes(content.root).join("").split(" ");
+  return words.length <= 30 ? words.join(" ") : words.slice(0, 30).join(" ") + "...";
+}
 ---
 
 <CarouselHeader images={images} buttons={hero.buttons}>
@@ -63,35 +85,26 @@ const stats = await sdk.findGlobal({ slug: "main-stats", locale: lang });
   <!-- ====================== NIEUWS SLIDER ====================== -->
   <!-- =========================================================== -->
 
-  <section class="news-carousel">
-    <h1>Laatste <b>nieuws</b></h1>
+  {!newsItems.length ? "" :
+    <section class="news-carousel">
+        <h2>Laatste <b>nieuws</b></h2>
 
-    <button class="carousel-btn news-left">‹</button>
-    <button class="carousel-btn news-right">›</button>
+        <button class="carousel-btn news-left">‹</button>
+        <button class="carousel-btn news-right">›</button>
 
-    <div class="news-track">
-      <article class="news-card">
-        <h3>Het nieuwe academische jaar is begonnen!</h3>
-        <time>2025-09-01</time>
-        <p>We hopen dat jullie een fijne vakantie hebben gehad...</p>
-        <a href="/nieuws/1" class="readmore">Lees verder</a>
-      </article>
-
-      <article class="news-card">
-        <h3>Kaartverkoop introductie 2025–2026 gestart!</h3>
-        <time>2025-06-04</time>
-        <p>Het thema dit jaar is Mario...</p>
-        <a href="/nieuws/2" class="readmore">Lees verder</a>
-      </article>
-
-      <article class="news-card">
-        <h3>Het 11e KKB is bekend!</h3>
-        <time>2025-05-12</time>
-        <p>De bekendmaking van het 11e kandidaatsbestuur...</p>
-        <a href="/nieuws/3" class="readmore">Lees verder</a>
-      </article>
-    </div>
-  </section>
+        <div class="news-track">
+        {newsItems.map(newsItem => 
+            <article class="news-card">
+                <h3>{newsItem.title}</h3>
+                <time>{formatDate(newsItem.updatedAt)}</time>
+                <!-- The richtext-lexical library doesn't really provide types we can use well, so we need to use an ugly cast -->
+                <p>{formatTextNodes(newsItem.content as unknown as { root: Node })}</p>
+                <a href={`/${lang}/nieuws/${newsItem.id}`} class="readmore">Lees verder</a>
+            </article>
+        )}
+        </div>
+    </section>
+  }
 
   <!-- =========================================================== -->
   <!-- ==================== Borrel + Vacature ===================== -->
