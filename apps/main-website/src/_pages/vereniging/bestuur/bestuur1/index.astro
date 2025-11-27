@@ -1,0 +1,193 @@
+---
+---
+<main>
+
+  <!-- WITTE KAART -->
+  <div class="board-card">
+
+    <!-- TITEL -->
+    <div class="board-header">
+      <h1 class="board-title">Bestuur 1</h1>
+      <p class="year">2005 - 2007</p>
+    </div>
+
+    <div class="board-content">
+
+      <!-- FOTO + v.l.n.r. -->
+      <div class="photo-wrapper">
+        <img 
+          src="https://images.ctfassets.net/7cqe14fu3dhm/1wrCy2tEoMMgyY6a2wWuwW/4330525e6dac3c3ae0c86a3b5ea7efc0/bestuur1.jpg"
+          alt="Bestuur 1"
+        />
+        <p class="vlnr">v.l.n.r. Naam A, Naam B, Naam C</p>
+      </div>
+
+      <!-- TEKST RECHTS -->
+      <div class="board-text">
+
+        <!-- O.d.z. blok -->
+        <div class="info-block">
+          <h3>O.d.z.</h3>
+          <p>“Doen we”</p>
+        </div>
+
+        <!-- Bestuursleden -->
+        <div class="info-block">
+          <h3>Bestuursleden</h3>
+          <p>Tjitske Visser - Voorzitter</p>
+          <p>Paul Brinkkemper - Secretaris</p>
+          <p>Rob van Weeghel - Penningmeester</p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- NAVIGATIEKNOPPEN BUITEN DE KAART -->
+  <div class="board-nav">
+    <a href="/nl/vereniging/bestuur" class="nav-btn back">Terug naar overzicht</a>
+    <a href="/nl/vereniging/bestuur/2" class="nav-btn next">Bestuur 2</a>
+  </div>
+
+</main>
+
+<style>
+
+/* PAGINA LAYOUT */
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+/* ======================= */
+/*  WITTE KAART            */
+/* ======================= */
+
+.board-card {
+  background: white;
+  padding: 2.5rem 2.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.06);
+  margin-bottom: 3rem;
+  margin-top: 3rem;
+}
+
+/* HEADER */
+.board-header {
+  margin-bottom: 1.6rem;
+}
+
+.board-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: #EA7A2F;
+}
+
+.year {
+  margin-top: 0.3rem;
+  font-size: 1.05rem;
+  opacity: 0.7;
+}
+
+/* ======================= */
+/* GRID                    */
+/* ======================= */
+
+.board-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.2rem;
+  align-items: start;
+}
+
+/* FOTO */
+.photo-wrapper img {
+  width: 100%;
+  border-radius: 0.8rem;
+  object-fit: cover;
+}
+
+.vlnr {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-style: italic;
+  opacity: 0.8;
+  font-size: 0.95rem;
+}
+
+/* ======================= */
+/* ===== INFO-BLOKKEN =====*/
+/* ======================= */
+
+.info-block {
+  margin-bottom: 1.8rem;
+  padding-bottom: 0.8rem;
+}
+
+.info-block h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #EA7A2F;
+}
+
+.info-block p {
+  margin: 0.4rem 0 0;
+  font-size: 1rem;
+  line-height: 1.4;
+  opacity: 0.9;
+}
+
+/* ======================= */
+/* NAVIGATIEKNOPPEN        */
+/* ======================= */
+
+.board-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.nav-btn {
+  background: #fa6b20;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover {
+  background: #e45d18;
+}
+
+.next::after {
+  content: " →";
+  font-weight: bold;
+}
+
+/* MOBIEL */
+@media (max-width: 800px) {
+
+  .board-content {
+    grid-template-columns: 1fr;
+  }
+
+  .board-header {
+    text-align: center;
+  }
+
+  .board-text h3,
+  .info-block {
+    text-align: center;
+  }
+}
+
+</style>
