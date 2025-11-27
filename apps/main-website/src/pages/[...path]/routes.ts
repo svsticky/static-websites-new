@@ -1,5 +1,15 @@
 import Vereniging_Activiteiten from "../../_pages/vereniging/activiteiten/index.astro";
+
+
+// Commissies //
+import Vereniging_Commissies from "../../_pages/vereniging/commissies/index.astro";
+
+import Adviesraad from "../../_pages/vereniging/commissies/Adviesraad/index.astro";
+
+
+// Besturen //
 import Vereniging_Bestuur from "../../_pages/vereniging/bestuur/index.astro";
+
 import Bestuur1 from "../../_pages/vereniging/bestuur/bestuur1/index.astro";
 import Bestuur2 from "../../_pages/vereniging/bestuur/bestuur2/index.astro";
 /*
@@ -54,6 +64,17 @@ export default [
             en: "Board - SV Sticky"
         }
     },
+        {
+        url: "vereniging/commissies",
+        component: Vereniging_Commissies,
+        title: {
+            nl: "Commissies - SV Sticky",
+            en: "Committees - SV Sticky"
+        }
+    },
+
+    { url: "vereniging/commissies/adviesraad", component: Adviesraad,  title: { nl: "Adviesraad - SV Sticky",  en: "Advisory board - SV Sticky" } },
+
 
     // -------------------------
     //   INDIVIDUELE BESTUREN

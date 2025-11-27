@@ -1,0 +1,163 @@
+---
+---
+<main>
+
+  <!-- WITTE KAART -->
+  <div class="committee-card">
+
+    <!-- TITEL -->
+    <div class="committee-header">
+      <h1 class="committee-title">Adviesraad</h1>
+    </div>
+
+    <div class="committee-content">
+
+      <!-- LOGO -->
+      <div class="logo-wrapper">
+        <img 
+          src="https://images.ctfassets.net/7cqe14fu3dhm/2uEeLuEKq2XFjU5G0oIBW8/5ae90017a12c787012bf91be581790ef/AR_Logo_niet_transparant.png"
+          alt="Logo Adviesraad"
+        />
+      </div>
+
+      <!-- TEKST RECHTS -->
+      <div class="committee-text">
+        <div class="info-block">
+          <h3>Over de Adviesraad</h3>
+          <p>
+            Joeeeeeeeeeeeeeeeeeee
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- NAVIGATIEKNOPPEN -->
+  <div class="committee-nav">
+    <a href="/nl/vereniging/commissies" class="nav-btn back">← Terug naar overzicht</a>
+  </div>
+
+</main>
+
+<style>
+
+/* LAYOUT */
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+/* ======================= */
+/*   WITTE KAART           */
+/* ======================= */
+
+.committee-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.06);
+  margin: 3rem 0;
+}
+
+/* HEADER */
+.committee-header {
+  margin-bottom: 1.6rem;
+}
+
+.committee-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--theme-color);
+}
+
+/* ======================= */
+/* GRID (1/4 - 3/4)        */
+/* ======================= */
+
+.committee-content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;  /* <<< 1/4 logo, 3/4 tekst */
+  gap: 2.2rem;
+  align-items: start;
+}
+
+/* LOGO */
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.logo-wrapper img {
+  width: 100%;
+  max-width: 220px;
+  object-fit: contain;
+  display: block;
+}
+
+/* ======================= */
+/* INFO-BLOKKEN            */
+/* ======================= */
+
+.info-block {
+  margin-bottom: 1.8rem;
+}
+
+.info-block h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--theme-color);
+}
+
+.info-block p {
+  margin: 0.4rem 0 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+/* ======================= */
+/* NAVIGATIEKNOPPEN        */
+/* ======================= */
+
+.committee-nav {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-btn {
+  background: #fa6b20;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-btn:hover {
+  filter: brightness(0.9);
+}
+
+/* ======================= */
+/* RESPONSIVE              */
+/* ======================= */
+
+@media (max-width: 800px) {
+  .committee-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .logo-wrapper {
+    margin-bottom: 1rem;
+  }
+}
+
+</style>
