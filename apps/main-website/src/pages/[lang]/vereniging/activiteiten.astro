@@ -6,57 +6,10 @@ const { lang } = Astro.params;
 
 <Layout title={lang === "nl" ? "Activiteiten" : "Activities"}>
   <main>
-      <h1> Activiteiten</h1>
-    <!-- =========================================================== -->
-    <!-- ==================== KOMENDE ACTIVITEITEN ================= -->
-    <!-- =========================================================== -->
-
+    <h1>Activiteiten</h1>
     <section class="activiteiten-section">
       <h2>Komende <b>activiteiten</b></h2>
-
-      <div class="activities-grid">
-
-        <article class="activity-card">
-          <img src="https://koala.svsticky.nl/api/activities/2125/poster" alt="" />
-          <div class="act-info">
-            <h3>Karaoke Avond</h3>
-            <time>12 december 2025</time>
-          </div>
-        </article>
-
-        <article class="activity-card">
-          <img src="https://koala.svsticky.nl/api/activities/2124/poster" alt="" />
-          <div class="act-info">
-            <h3>St. Patricks Day Borrel</h3>
-            <time>17 maart 2025</time>
-          </div>
-        </article>
-
-        <article class="activity-card">
-          <img src="https://koala.svsticky.nl/api/activities/2123/poster" alt="" />
-          <div class="act-info">
-            <h3>Origami Workshop</h3>
-            <time>22 april 2025</time>
-          </div>
-        </article>
-
-        <article class="activity-card">
-          <img src="https://koala.svsticky.nl/api/activities/2122/poster" alt="" />
-          <div class="act-info">
-            <h3>LAN Party 2025</h3>
-            <time>4 mei 2025</time>
-          </div>
-        </article>
-
-        <article class="activity-card">
-          <img src="https://koala.svsticky.nl/api/activities/2121/poster" alt="" />
-          <div class="act-info">
-            <h3>Zomer BBQ</h3>
-            <time>28 juni 2025</time>
-          </div>
-        </article>
-
-      </div>
+      <coming-activities data-api-url="https://koala.svsticky.nl/api/activities" class="activities-grid"></coming-activities>
     </section>
 
     <!-- Scheidingslijn -->
@@ -122,6 +75,51 @@ const { lang } = Astro.params;
   </main>
 </Layout>
 
+<script>
+interface Activity {
+  thumbnail: string;
+  name: string;
+  start_date: string;
+}
+
+function createCard(activity: Activity): HTMLElement {
+  const article = document.createElement("article");
+  article.classList.add("activity-card", "past");
+
+  const poster = document.createElement("img");
+  poster.src = activity.thumbnail;
+  poster.alt = activity.name;
+  article.appendChild(poster);
+
+  const info = document.createElement("div");
+  info.classList.add("act-info");
+
+  const title = document.createElement("h3");
+  title.innerText = activity.name;
+  info.appendChild(title);
+
+  const time = document.createElement("time");
+  const d = new Date(activity.start_date)
+  time.innerText = `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
+  info.appendChild(time);
+
+  article.appendChild(info);
+  return article;
+}
+
+class ComingActivities extends HTMLElement {
+  connectedCallback() {
+    fetch(this.dataset["api-url"]!).then(resp => resp.json()).then(activities => {
+      for (const activity of activities) {
+        const element = createCard(activity);
+        this.appendChild(element);
+      }
+    });
+  }
+}
+
+customElements.define("coming-activities", ComingActivities);
+</script>
 
 <style lang="scss" is:global>
 main {
