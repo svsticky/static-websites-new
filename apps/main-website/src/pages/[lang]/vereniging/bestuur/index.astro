@@ -1,35 +1,35 @@
 ---
 import Layout from "../../../../components/Layout.astro";
-import type { Config } from "@svsticky/content"
+import type { Config, Media } from "@svsticky/content"
+import sdk from "../../../../sdk";
+
 export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
 const { lang } = Astro.params as { lang: Config["locale"] };
+
+const boards = (await sdk.find({ collection: "main-board", draft: false, locale: lang })).docs;
+boards.sort((a, b) => b.board_number - a.board_number);
+const currentBoard = boards[0];
+const oldBoards = boards.slice(1);
 ---
 
-<Layout title={lang === "nl" ? "Bestuur" : "Board"}>
+<Layout title={lang === "nl" ? "Besturen" : "Boards"}>
   <main>
-
-    <!-- ========================= -->
-    <!--   HUIDIG BESTUUR         -->
-    <!-- ========================= -->
-
     <section class="board-section">
       <div class="section-title">
-        <h1>Huidig bestuur</h1>
+        <h2>Huidig bestuur</h2>
       </div>
 
-      <a href="/nl/vereniging/bestuur/20" class="current-board">
+      <a href={`/${lang}/vereniging/bestuur/${currentBoard.board_number}`} class="current-board">
+        <img 
+            src={(currentBoard.picture as Media).url}
+            alt={(currentBoard.picture as Media).alt}
+        />
 
-      <img 
-          src="https://images.ctfassets.net/7cqe14fu3dhm/6kKdSfoXGJkc7hE1RkBW0k/7e1d03c82e13485c7746fdb677314b01/B20_Vo.jpg" 
-          alt="Bestuur 20"
-      />
-
-      <div class="current-info">
-          <h2>Bestuur 20</h2>
-          <p class="year">2025 - 2026</p>
-          <p class="odz">“Mooie momenten”</p>
-      </div>
-
+        <div class="current-info">
+          <h3>Bestuur {currentBoard.board_number}</h3>
+          <p class="year">{currentBoard.year}</p>
+          <p class="odz">“{currentBoard.zinspreuk}”</p>
+        </div>
       </a>
     </section>
 
@@ -39,95 +39,19 @@ const { lang } = Astro.params as { lang: Config["locale"] };
     <!-- ========================= -->
 
     <section class="board-section">
-      <div class="section-title">
-        <h1>Oude besturen</h1>
-        <div class="line"></div>
-      </div>
+      <h2>Oude besturen</h2>
 
       <div class="old-board-grid">
-
-        <a class="old-board-card bestuur19" href="/nl/vereniging/bestuur/19">
-          <p>Bestuur 19 | 2024 - 2025</p>
-        </a>
-
-        <a class="old-board-card bestuur18" href="/nl/vereniging/bestuur/18">
-          <p>Bestuur 18 | 2023 - 2024</p>
-        </a>
-
-        <a class="old-board-card bestuur17" href="/nl/vereniging/bestuur/17">
-          <p>Bestuur 17 | 2022 - 2023</p>
-        </a>
-
-        <a class="old-board-card bestuur16" href="/nl/vereniging/bestuur/16">
-          <p>Bestuur 16 | 2021 - 2022</p>
-        </a>
-
-        <a class="old-board-card bestuur15" href="/nl/vereniging/bestuur/15">
-          <p>Bestuur 15 | 2020 - 2021</p>
-        </a>
-
-        <a class="old-board-card bestuur14" href="/nl/vereniging/bestuur/14">
-          <p>Bestuur 14 | 2019 - 2020</p>
-        </a>
-
-        <a class="old-board-card bestuur13" href="/nl/vereniging/bestuur/13">
-          <p>Bestuur 13 | 2018 - 2019</p>
-        </a>
-
-        <a class="old-board-card bestuur12" href="/nl/vereniging/bestuur/12">
-          <p>Bestuur 12 | 2017 - 2018</p>
-        </a>
-
-        <a class="old-board-card bestuur11" href="/nl/vereniging/bestuur/11">
-          <p>Bestuur 11 | 2016 - 2017</p>
-        </a>
-
-        <a class="old-board-card bestuur10" href="/nl/vereniging/bestuur/10">
-          <p>Bestuur 10 | 2015 - 2016</p>
-        </a>
-
-        <a class="old-board-card bestuur9" href="/nl/vereniging/bestuur/9">
-          <p>Bestuur 9 | 2014 - 2015</p>
-        </a>
-
-        <a class="old-board-card bestuur8" href="/nl/vereniging/bestuur/8">
-          <p>Bestuur 8 | 2013 - 2014</p>
-        </a>
-
-        <a class="old-board-card bestuur7" href="/nl/vereniging/bestuur/7">
-          <p>Bestuur 7 | 2012 - 2013</p>
-        </a>
-
-        <a class="old-board-card bestuur6" href="/nl/vereniging/bestuur/6">
-          <p>Bestuur 6 | 2011 - 2012</p>
-        </a>
-
-        <a class="old-board-card bestuur5" href="/nl/vereniging/bestuur/5">
-          <p>Bestuur 5 | 2010 - 2011</p>
-        </a>
-
-        <a class="old-board-card bestuur4" href="/nl/vereniging/bestuur/4">
-          <p>Bestuur 4 | 2009 - 2010</p>
-        </a>
-
-        <a class="old-board-card bestuur3" href="/nl/vereniging/bestuur/3">
-          <p>Bestuur 3 | 2008 - 2009</p>
-        </a>
-
-        <a class="old-board-card bestuur2" href="/nl/vereniging/bestuur/2">
-          <p>Bestuur 2 | 2007 - 2008</p>
-        </a>
-
-        <a class="old-board-card bestuur1" href="/nl/vereniging/bestuur/1">
-          <p>Bestuur 1 | 2006 - 2007</p>
-        </a>
-
+        {oldBoards.map(board => 
+          <a class="old-board-card" style={`border-color: ${board.colour}`} href={`/${lang}/vereniging/bestuur/${board.board_number}`}>
+            <img src={(board.picture as Media).url} alt={(board.picture as Media).alt} />
+            <p>Bestuur {board.board_number} | {board.year}</p>
+          </a>
+        )}
       </div>
     </section>
-
   </main>
 </Layout>
-
 
 <style>
 
@@ -143,16 +67,13 @@ main {
 /* Section title           */
 /* ======================= */
 
-.section-title {
+h2 {
+  font-size: 2rem;
+  font-weight: 800;
   text-align: center;
   margin-top: 3rem;
   margin-bottom: 2rem;
-}
-
-.section-title h1 {
-  font-size: 2rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
+  width: 100%;
 }
 
 /* ======================= */
@@ -178,8 +99,10 @@ main {
   cursor: pointer;
 }
 
+.current-board:hover img {
+  transform: scale(1.025);
+}
 
-/* Foto */
 .current-board img {
   width: 100%;
   aspect-ratio: 16 / 7;
@@ -187,6 +110,7 @@ main {
   object-position: center middle;
   display: block;
   border-radius: 1.6rem 1.6rem 0 0;
+  transition: .5s;
 }
 
 /* Infobalk */
@@ -205,7 +129,7 @@ main {
   box-shadow: 0 0.6rem 1.3rem rgba(250,107,32,0.25);
 }
 
-.current-info h2 {
+.current-info h3 {
   margin: 0;
   font-size: 1.9rem;
   font-weight: 800;
@@ -244,36 +168,34 @@ main {
   font-weight: 700;
   font-size: 1.1rem;
   overflow: hidden;
+  position: relative;
   text-decoration: none;
+  border-width: .25rem;
+  border-style: solid;
+}
+
+.old-board-card:hover img {
+  transform: scale(1.05);
+}
+
+.old-board-card img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  object-fit: cover;
+  object-position: center;
+  transition: .5s;
 }
 
 .old-board-card p {
   padding: 0.4rem 0.6rem;
   background: rgba(0,0,0,0.25);
   border-radius: 0.4rem;
+  z-index: 2;
 }
-
-/* Kleuren */
-.bestuur1  { background: #EA7A2F; }
-.bestuur2  { background: #e85276; }
-.bestuur3  { background: #950423; }
-.bestuur4  { background: #b4e093; }
-.bestuur5  { background: #EA7A2F; }
-.bestuur6  { background: #4169e1; }
-.bestuur7  { background: #6c1122; }
-.bestuur8  { background: #755a9b; }
-.bestuur9  { background: #46c4ff; }
-.bestuur10 { background: #EA7A2F; }
-.bestuur11 { background: #ce2029; }
-.bestuur12 { background: #000078; }
-.bestuur13 { background: #20730d; }
-.bestuur14 { background: #c53f78; }
-.bestuur15 { background: #fe7215; }
-.bestuur16 { background: #800816; }
-.bestuur17 { background: #29738f; }
-.bestuur18 { background: #665892; }
-.bestuur19 { background: #197052; }
-.bestuur20 { background: #fa6b20; }
 
 @media (max-width: 900px) {
   .old-board-grid {
