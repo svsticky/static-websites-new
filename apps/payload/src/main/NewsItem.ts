@@ -2,6 +2,7 @@ import { CollectionConfig } from "payload";
 
 export const NewsItem: CollectionConfig = {
     slug: "main-news-item",
+    labels: { singular: "News item", plural: "News items" },
     admin: {
         group: "Main website"
     },

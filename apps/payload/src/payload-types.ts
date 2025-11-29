@@ -76,6 +76,7 @@ export interface Config {
     'board-message': BoardMessage;
     quote: Quote;
     'main-news-item': MainNewsItem;
+    'main-committee': MainCommittee;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -92,6 +93,7 @@ export interface Config {
     'board-message': BoardMessageSelect<false> | BoardMessageSelect<true>;
     quote: QuoteSelect<false> | QuoteSelect<true>;
     'main-news-item': MainNewsItemSelect<false> | MainNewsItemSelect<true>;
+    'main-committee': MainCommitteeSelect<false> | MainCommitteeSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -337,6 +339,37 @@ export interface MainNewsItem {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-committee".
+ */
+export interface MainCommittee {
+  id: number;
+  /**
+   * The part after /commissies/ in the url of the website
+   */
+  slug: string;
+  name: string;
+  logo: number | Media;
+  about: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -394,6 +427,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'main-news-item';
         value: number | MainNewsItem;
+      } | null)
+    | ({
+        relationTo: 'main-committee';
+        value: number | MainCommittee;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -559,6 +596,19 @@ export interface QuoteSelect<T extends boolean = true> {
 export interface MainNewsItemSelect<T extends boolean = true> {
   title?: T;
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-committee_select".
+ */
+export interface MainCommitteeSelect<T extends boolean = true> {
+  slug?: T;
+  name?: T;
+  logo?: T;
+  about?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

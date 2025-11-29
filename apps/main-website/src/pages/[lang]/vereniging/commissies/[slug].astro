@@ -1,8 +1,16 @@
 ---
 import Layout from "../../../../components/Layout.astro";
-import type { Config } from "@svsticky/content";
-export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
-const { lang } = Astro.params as { lang: Config["locale"] };
+import type { Config, Media } from "@svsticky/content";
+import sdk from "../../../../sdk";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+
+export const getStaticPaths = () => (sdk
+  .find({ collection: "main-committee", select: { slug: true } })
+  .then(resp => resp.docs.flatMap(({ slug }) => [{params: {lang: "nl", slug}}, {params: {lang: "en", slug}}])));
+
+const { lang, slug } = Astro.params as { lang: Config["locale"], slug: string };
+
+const committee = (await sdk.find({ collection: "main-committee", where: { slug: { equals: slug } }, limit: 1, locale: lang })).docs[0];
 ---
 
 <Layout title={lang === "nl" ? "Adviesraad" : "Advisory board"}>
@@ -12,7 +20,7 @@ const { lang } = Astro.params as { lang: Config["locale"] };
 
       <!-- TITEL -->
       <div class="committee-header">
-        <h1 class="committee-title">Adviesraad</h1>
+        <h1 class="committee-title">{committee.name}</h1>
       </div>
 
       <div class="committee-content">
@@ -20,28 +28,21 @@ const { lang } = Astro.params as { lang: Config["locale"] };
         <!-- LOGO -->
         <div class="logo-wrapper">
           <img 
-            src="https://images.ctfassets.net/7cqe14fu3dhm/2uEeLuEKq2XFjU5G0oIBW8/5ae90017a12c787012bf91be581790ef/AR_Logo_niet_transparant.png"
-            alt="Logo Adviesraad"
+            src={(committee.logo as Media).url}
+            alt={`Logo ${committee.name}`}
           />
         </div>
 
         <!-- TEKST RECHTS -->
         <div class="committee-text">
-          <div class="info-block">
-            <h3>Over de Adviesraad</h3>
-            <p>
-              Joeeeeeeeeeeeeeeeeeee
-            </p>
-          </div>
+          <div class="info-block" set:html={convertLexicalToHTML({ data: committee.about })}></div>
         </div>
-
       </div>
-
     </div>
 
     <!-- NAVIGATIEKNOPPEN -->
     <div class="committee-nav">
-      <a href="/nl/vereniging/commissies" class="nav-btn back">← Terug naar overzicht</a>
+      <a href={`/${lang}/vereniging/commissies`} class="nav-btn back">← Terug naar overzicht</a>
     </div>
   </main>
 </Layout>
