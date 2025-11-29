@@ -1,20 +1,32 @@
 ---
 import Layout from "../../../../components/Layout.astro";
-import type { Config } from "@svsticky/content"
-export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
-const { lang } = Astro.params as { lang: Config["locale"] };
+import type { Config, Media } from "@svsticky/content"
+import sdk from "../../../../sdk";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+
+export const getStaticPaths = () => (
+  sdk.find({ collection: "main-board", select: { board_number: true }, draft: false })
+     .then(resp => {
+        const latestBoard = Math.max(...resp.docs.map(doc => doc.board_number));
+        return resp.docs.flatMap(({ board_number: number }) => [
+          {params: {lang: "nl", number}, props: {isLast: number === latestBoard}},
+          {params: {lang: "en", number}, props: {isLast: number === latestBoard}}
+        ])
+      }));
+const { lang, number } = Astro.params as { lang: Config["locale"], number: number };
+const { isLast } = Astro.props as { isLast: boolean };
+
+const board = (await sdk.find({ collection: "main-board", where: { board_number: { equals: number } }, locale: lang })).docs[0];
 ---
 
-<Layout title={lang === "nl" ? "Bestuur 20" : "Board 20"}>
+<Layout title={`${lang === "nl" ? "Bestuur" : "Board"} ${board.board_number}`}>
   <main>
-
-    <!-- WITTE KAART -->
     <div class="board-card">
 
       <!-- TITEL -->
       <div class="board-header">
-        <h1 class="board-title">Bestuur 20</h1>
-        <p class="year">2025 - 2026</p>
+        <h1 class="board-title">{`${isLast ? "Huidig bestuur" : "Bestuur"} ${board.board_number}`}</h1>
+        <p class="year">{board.year}</p>
       </div>
 
       <div class="board-content">
@@ -22,10 +34,10 @@ const { lang } = Astro.params as { lang: Config["locale"] };
         <!-- FOTO + v.l.n.r. -->
         <div class="photo-wrapper">
           <img 
-            src="https://images.ctfassets.net/7cqe14fu3dhm/6kKdSfoXGJkc7hE1RkBW0k/7e1d03c82e13485c7746fdb677314b01/B20_Vo.jpg"
-            alt="Bestuur 20"
+            src={(board.picture as Media).url}
+            alt={(board.picture as Media).alt}
           />
-          <p class="vlnr">v.l.n.r. Jari, Rens, Bram, Iris, Chion, Isabelle</p>
+          <p class="vlnr">{(board.picture as Media).alt}</p>
         </div>
 
         <!-- TEKST RECHTS -->
@@ -34,89 +46,49 @@ const { lang } = Astro.params as { lang: Config["locale"] };
           <!-- O.d.z. -->
           <div class="info-block">
             <h3>O.d.z.</h3>
-            <p><i>"Met elkaar, Mooie momenten"</i></p>
+            <p><i>"{board.zinspreuk}"</i></p>
           </div>
 
           <!-- Bestuursleden -->
           <div class="info-block">
             <h3>Bestuursleden</h3>
-            <p>Iris van der Zwart - Voorzitter</p>
-            <p>Bram de Haas - Secretaris</p>
-            <p>Chion Craane - Penningmeester</p>
-            <p>Rens van Moorsel - Commissaris Intern</p>
-            <p>Isabelle Wittebols - Commissaris Extern</p>
-            <p>Jari van Polen - Commissaris Onderwijs</p>
+            <ul>
+              {board.board_members.map(member => (
+                <li>{member.name} - {member.function}</li>
+              ))}
+            </ul>
           </div>
-
         </div>
-
       </div>
-
     </div>
 
       <!-- NAVIGATIEKNOPPEN BUITEN DE KAART -->
     <div class="board-nav">
-      <a href="/nl/vereniging/bestuur/19" class="nav-btn back">← Bestuur 19</a>
+      {board.board_number == 1 ? "" : 
+        <a href={`/${lang}/vereniging/bestuur/${board.board_number - 1}`} class="nav-btn back">← Bestuur 19</a>}
       <a href="/nl/vereniging/bestuur" class="nav-btn back">Terug naar overzicht</a>
+      {isLast ? "" :
+        <a href={`/${lang}/vereniging/bestuur/${board.board_number + 1}`} class="nav-btn back">← Bestuur 19</a>}
     </div>
 
     <!-- ===== CONTACT CARDS  ===== -->
-    <div class="member-cards">
-
-      <div class="member-card left">
-        <img src="https://images.ctfassets.net/7cqe14fu3dhm/3UxjxH6ludmzNRaNvxvR7M/edb3e3fe4563a0323f723713dc15be56/IMG_0610.jpg" alt="Iris">
-        <div class="member-info">
-          <h4>Iris van der Zwart - Voorzitter</h4>
-          <p>Korte persoonlijke tekst over Iris. Dit kan gaan over motivatie, doelen of bestuursstijl.</p>
-        </div>
+    {!board.enable_personal_texts ? "" :
+      <div class="member-cards">
+        {board.board_members.map((member, index) => 
+          <div class={`member-card ${index % 2 === 0 ? "left" : "right"}`}>
+            <img src={(member.picture! as Media).url} alt={(member.picture! as Media).alt}>
+            <div class="member-info">
+              <h4>{member.name} - {member.function}</h4>
+              <div set:html={convertLexicalToHTML({ data: member.description! })}></div>
+            </div>
+          </div>
+        )}
       </div>
-
-      <div class="member-card right">
-        <img src="https://images.ctfassets.net/7cqe14fu3dhm/65ym4CVbwpeqCnYxg9RCO7/0c866b042a74135423bebd523e2c6217/ingezoomd.jpeg" alt="Bram">
-        <div class="member-info">
-          <h4>Bram de Haas - Secretaris</h4>
-          <p>Korte tekst over Bram. Bijvoorbeeld zijn rol in communicatie of administratie.</p>
-        </div>
-      </div>
-
-      <div class="member-card left">
-        <img src="https://images.ctfassets.net/7cqe14fu3dhm/6nu3c30UudemRTUnYab9tD/afc5657b765dbb9cccc40951f8d7865d/IMG_0752.jpg" alt="Chion">
-        <div class="member-info">
-          <h4>Chion Craane - Penningmeester</h4>
-          <p>Korte tekst over Chion. Bijvoorbeeld over financiën, begroting, begrotingsdiscipline.</p>
-        </div>
-      </div>
-
-      <div class="member-card right">
-        <img src="https://images.ctfassets.net/7cqe14fu3dhm/52FJixMzQLFKXtpb57OnD3/b53cd8cef341a401eb232964accdf9db/IMG_0453.jpg" alt="Rens">
-        <div class="member-info">
-          <h4>Rens van Moorsel - Commissaris Intern</h4>
-          <p>Korte tekst over Rens. Activiteiten, intern contact, sfeerteam, dat soort dingen.</p>
-        </div>
-      </div>
-
-      <div class="member-card left">
-        <img src="https://images.ctfassets.net/7cqe14fu3dhm/2nfB8jr2o4XTS5WvMN9B87/7b0b3b6955d119e7d9f90e532940b451/bestuursfoto_isabelle.jpg" alt="Isabelle">
-        <div class="member-info">
-          <h4>Isabelle Wittebols - Commissaris Extern</h4>
-          <p>Tekst over Isabelle. Verenigingen, sponsoren, externe contacten.</p>
-        </div>
-      </div>
-
-      <div class="member-card right">
-        <img src="https://images.ctfassets.net/7cqe14fu3dhm/WOQBKUGWYr6vAFlGu9t9f/4eb9c73c64aae4ba03555145382583ad/IMG_0364.jpg" alt="Jari">
-        <div class="member-info">
-          <h4>Jari van Polen - Commissaris Onderwijs</h4>
-          <p>Korte tekst over Jari. Onderwijszaken, cursusevaluaties, universiteitscontacten.</p>
-        </div>
-      </div>
-
-    </div>
-
+    }
   </main>
 </Layout>
 
-<style>
+<style define:vars={{ boardColour: board.colour }}>
 
 /* PAGINA LAYOUT */
 main {
@@ -149,7 +121,7 @@ main {
   margin: 0;
   font-size: 2rem;
   font-weight: 800;
-  color: #fa6b20;
+  color: var(--boardColour);
 }
 
 .year {
@@ -197,13 +169,18 @@ main {
   margin: 0;
   font-size: 1.35rem;
   font-weight: 800;
-  color: #fa6b20;
+  color: var(--boardColour);
 }
 
-.info-block p {
+.info-block ul {
+  padding: 0;
+}
+
+.info-block li {
   margin: 0.4rem 0 0;
   font-size: 1rem;
   line-height: 1.4;
+  list-style-type: none;
 }
 
 /* ======================= */
@@ -259,7 +236,7 @@ main {
   height: 200px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #fa6b20;
+  border: 3px solid var(--boardColour);
 }
 
 /* TEKST */
@@ -267,7 +244,7 @@ main {
   margin: 0;
   font-size: 1.2rem;
   font-weight: 800;
-  color: #fa6b20;
+  color: var(--boardColour);
 }
 
 .member-info p {

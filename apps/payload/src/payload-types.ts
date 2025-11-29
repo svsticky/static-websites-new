@@ -77,6 +77,7 @@ export interface Config {
     quote: Quote;
     'main-news-item': MainNewsItem;
     'main-committee': MainCommittee;
+    'main-board': MainBoard;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -94,6 +95,7 @@ export interface Config {
     quote: QuoteSelect<false> | QuoteSelect<true>;
     'main-news-item': MainNewsItemSelect<false> | MainNewsItemSelect<true>;
     'main-committee': MainCommitteeSelect<false> | MainCommitteeSelect<true>;
+    'main-board': MainBoardSelect<false> | MainBoardSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -370,6 +372,43 @@ export interface MainCommittee {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-board".
+ */
+export interface MainBoard {
+  id: number;
+  board_number: number;
+  year: string;
+  colour: string;
+  zinspreuk: string;
+  picture: number | Media;
+  enable_personal_texts: boolean;
+  board_members: {
+    name: string;
+    function: string;
+    picture?: (number | null) | Media;
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -431,6 +470,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'main-committee';
         value: number | MainCommittee;
+      } | null)
+    | ({
+        relationTo: 'main-board';
+        value: number | MainBoard;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -609,6 +652,30 @@ export interface MainCommitteeSelect<T extends boolean = true> {
   name?: T;
   logo?: T;
   about?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-board_select".
+ */
+export interface MainBoardSelect<T extends boolean = true> {
+  board_number?: T;
+  year?: T;
+  colour?: T;
+  zinspreuk?: T;
+  picture?: T;
+  enable_personal_texts?: T;
+  board_members?:
+    | T
+    | {
+        name?: T;
+        function?: T;
+        picture?: T;
+        description?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
