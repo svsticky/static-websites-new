@@ -65,10 +65,16 @@ const board = (await sdk.find({ collection: "main-board", where: { board_number:
       <!-- NAVIGATIEKNOPPEN BUITEN DE KAART -->
     <div class="board-nav">
       {board.board_number == 1 ? "" : 
-        <a href={`/${lang}/vereniging/bestuur/${board.board_number - 1}`} class="nav-btn back">← Bestuur 19</a>}
+        <a href={`/${lang}/vereniging/bestuur/${board.board_number - 1}`} class="nav-btn back">
+          <i class="fas fa-arrow-left"></i>
+          Bestuur {board.board_number - 1}
+        </a>}
       <a href="/nl/vereniging/bestuur" class="nav-btn back">Terug naar overzicht</a>
       {isLast ? "" :
-        <a href={`/${lang}/vereniging/bestuur/${board.board_number + 1}`} class="nav-btn back">← Bestuur 19</a>}
+        <a href={`/${lang}/vereniging/bestuur/${board.board_number + 1}`} class="nav-btn back">
+          Bestuur {board.board_number + 1}
+          <i class="fas fa-arrow-right"></i>
+        </a>}
     </div>
 
     <!-- ===== CONTACT CARDS  ===== -->
