@@ -3,7 +3,10 @@ import type { Config, Media } from "@svsticky/content";
 import { CarouselHeader } from "@svsticky/components";
 import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
-import sdk from "../sdk";
+import sdk from "../../sdk";
+import Layout from "../../components/Layout.astro";
+
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
 
 const { lang } = Astro.props as { lang: Config["locale"] };
 
@@ -35,158 +38,161 @@ function formatTextNodes(content: { root: Node }) {
 }
 ---
 
-<CarouselHeader images={images} buttons={hero.buttons}>
-  <div set:html={convertLexicalToHTML({ data: hero.content })}></div>
-</CarouselHeader>
+<Layout title="SV Sticky">
+  <CarouselHeader images={images} buttons={hero.buttons}>
+    <div set:html={convertLexicalToHTML({ data: hero.content })}></div>
+  </CarouselHeader>
 
-<main>
-  <!-- =========================================================== -->
-  <!-- ==================== Statistieken ========================= -->
-  <!-- =========================================================== -->
+  <main>
+    <!-- =========================================================== -->
+    <!-- ==================== Statistieken ========================= -->
+    <!-- =========================================================== -->
 
-  <section class="stats-section">
-    <div class="stats-wrapper" data-duration={stats.duration}>
-      {stats.stats.map(statistic => 
-        <div class="stat">
-            <span
-                class="stat-number"
-                data-target={statistic.target}
-                data-unit={statistic.unit ?? ""}
-                data-include-unit={statistic.include_unit_in_animation}
-            >0</span>
-            <span class="stat-label">{statistic.description}</span>
-        </div>
-      )}
-    </div>
-  </section>
-
-  <!-- =========================================================== -->
-  <!-- ==================== SPONSOR MARQUEE ====================== -->
-  <!-- =========================================================== -->
-
-  <h1>Partners van <b>Studievereniging Sticky</b></h1>
-
-  <!-- Dummy sponsor company's -->
-   
-  <section class="sponsor-marquee">
-    <div class="marquee-track">
-      <img src="https://support.rentman.io/hc/theming_assets/01K248YMEMEYFHP29FYQY60WX7" alt="Rentman" />
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" />
-      <img src="https://netcompany.com/wp-content/uploads/2023/05/netcompany-opengraph.png" alt="Netcompany" />
-
-      <!-- Duplicate for infinite looping -->
-      <img src="https://support.rentman.io/hc/theming_assets/01K248YMEMEYFHP29FYQY60WX7" alt="Rentman" />
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" />
-      <img src="https://netcompany.com/wp-content/uploads/2023/05/netcompany-opengraph.png" alt="Netcompany" />
-    </div>
-  </section>
-
-  <!-- =========================================================== -->
-  <!-- ====================== NIEUWS SLIDER ====================== -->
-  <!-- =========================================================== -->
-
-  {!newsItems.length ? "" :
-    <section class="news-carousel">
-        <h2>Laatste <b>nieuws</b></h2>
-
-        <button class="carousel-btn news-left">‹</button>
-        <button class="carousel-btn news-right">›</button>
-
-        <div class="news-track">
-        {newsItems.map(newsItem => 
-            <article class="news-card">
-                <h3>{newsItem.title}</h3>
-                <time>{formatDate(newsItem.updatedAt)}</time>
-                <!-- The richtext-lexical library doesn't really provide types we can use well, so we need to use an ugly cast -->
-                <p>{formatTextNodes(newsItem.content as unknown as { root: Node })}</p>
-                <a href={`/${lang}/nieuws/${newsItem.id}`} class="readmore">Lees verder</a>
-            </article>
+    <section class="stats-section">
+      <div class="stats-wrapper" data-duration={stats.duration}>
+        {stats.stats.map(statistic => 
+          <div class="stat">
+              <span
+                  class="stat-number"
+                  data-target={statistic.target}
+                  data-unit={statistic.unit ?? ""}
+                  data-include-unit={statistic.include_unit_in_animation}
+              >0</span>
+              <span class="stat-label">{statistic.description}</span>
+          </div>
         )}
-        </div>
-    </section>
-  }
-
-  <!-- =========================================================== -->
-  <!-- ==================== Borrel + Vacature ===================== -->
-  <!-- =========================================================== -->
-
-  <section class="section info-columns">
-
-    <!-- 1/3 Borrel -->
-    <div class="info-box">
-      <h2>Wekelijkse borrel</h2>
-      <div class="info-card">
-        <p>
-          Elke week is er een borrel om 17:00 in de Vagant waar je even kunt socialisen met je mede-leden.
-          De borrels zijn iedere <strong>woensdag</strong>!
-        </p>
       </div>
-    </div>
+    </section>
 
-    <!-- 2/3 Vacature -->
-    <div class="info-box">
-      <h2>Uitgelichte vacature</h2>
+    <!-- =========================================================== -->
+    <!-- ==================== SPONSOR MARQUEE ====================== -->
+    <!-- =========================================================== -->
 
-      <div class="info-card job">
-        <div class="job-content">
-          <img
-            src="https://harvest.nl/wp-content/uploads/2023/11/cropped-harvest-share.png"
-            alt="Harvest logo"
-            class="job-logo"
-          />
+    <h1>Partners van <b>Studievereniging Sticky</b></h1>
 
-          <div class="job-text">
-            <h3>Harvest high-potential programma Software</h3>
-            <p>
-              Bij Harvest bieden we een technisch post-masterprogramma van topklasse,
-              speciaal ontworpen om high potentials in software een raketstart van hun carrière te geven.
-            </p>
+    <!-- Dummy sponsor company's -->
+    
+    <section class="sponsor-marquee">
+      <div class="marquee-track">
+        <img src="https://support.rentman.io/hc/theming_assets/01K248YMEMEYFHP29FYQY60WX7" alt="Rentman" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" />
+        <img src="https://netcompany.com/wp-content/uploads/2023/05/netcompany-opengraph.png" alt="Netcompany" />
 
-            <a href="/vacatures" class="info-button">Meer vacatures</a>
+        <!-- Duplicate for infinite looping -->
+        <img src="https://support.rentman.io/hc/theming_assets/01K248YMEMEYFHP29FYQY60WX7" alt="Rentman" />
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Booking.com_logo.svg/2560px-Booking.com_logo.svg.png" alt="Booking.com" />
+        <img src="https://netcompany.com/wp-content/uploads/2023/05/netcompany-opengraph.png" alt="Netcompany" />
+      </div>
+    </section>
+
+    <!-- =========================================================== -->
+    <!-- ====================== NIEUWS SLIDER ====================== -->
+    <!-- =========================================================== -->
+
+    {!newsItems.length ? "" :
+      <section class="news-carousel">
+          <h2>Laatste <b>nieuws</b></h2>
+
+          <button class="carousel-btn news-left">‹</button>
+          <button class="carousel-btn news-right">›</button>
+
+          <div class="news-track">
+          {newsItems.map(newsItem => 
+              <article class="news-card">
+                  <h3>{newsItem.title}</h3>
+                  <time>{formatDate(newsItem.updatedAt)}</time>
+                  <!-- The richtext-lexical library doesn't really provide types we can use well, so we need to use an ugly cast -->
+                  <p>{formatTextNodes(newsItem.content as unknown as { root: Node })}</p>
+                  <a href={`/${lang}/nieuws/${newsItem.id}`} class="readmore">Lees verder</a>
+              </article>
+          )}
+          </div>
+      </section>
+    }
+
+    <!-- =========================================================== -->
+    <!-- ==================== Borrel + Vacature ===================== -->
+    <!-- =========================================================== -->
+
+    <section class="section info-columns">
+
+      <!-- 1/3 Borrel -->
+      <div class="info-box">
+        <h2>Wekelijkse borrel</h2>
+        <div class="info-card">
+          <p>
+            Elke week is er een borrel om 17:00 in de Vagant waar je even kunt socialisen met je mede-leden.
+            De borrels zijn iedere <strong>woensdag</strong>!
+          </p>
+        </div>
+      </div>
+
+      <!-- 2/3 Vacature -->
+      <div class="info-box">
+        <h2>Uitgelichte vacature</h2>
+
+        <div class="info-card job">
+          <div class="job-content">
+            <img
+              src="https://harvest.nl/wp-content/uploads/2023/11/cropped-harvest-share.png"
+              alt="Harvest logo"
+              class="job-logo"
+            />
+
+            <div class="job-text">
+              <h3>Harvest high-potential programma Software</h3>
+              <p>
+                Bij Harvest bieden we een technisch post-masterprogramma van topklasse,
+                speciaal ontworpen om high potentials in software een raketstart van hun carrière te geven.
+              </p>
+
+              <a href="/vacatures" class="info-button">Meer vacatures</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
 
-  <!-- =========================================================== -->
-  <!-- ================= ACTIVITEITEN SLIDER ===================== -->
-  <!-- =========================================================== -->
+    <!-- =========================================================== -->
+    <!-- ================= ACTIVITEITEN SLIDER ===================== -->
+    <!-- =========================================================== -->
 
-  <section class="activities-carousel">
-    <h1>Komende <b>activiteiten</b></h1>
+    <section class="activities-carousel">
+      <h1>Komende <b>activiteiten</b></h1>
 
-    <button class="carousel-btn act-left">‹</button>
-    <button class="carousel-btn act-right">›</button>
+      <button class="carousel-btn act-left">‹</button>
+      <button class="carousel-btn act-right">›</button>
 
-    <div class="activities-track">
-      <article class="activity-card">
-        <img src="https://koala.svsticky.nl/api/activities/2125/poster" alt="Karaoke Drinks" />
-      </article>
+      <div class="activities-track">
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2125/poster" alt="Karaoke Drinks" />
+        </article>
 
-      <article class="activity-card">
-        <img src="https://koala.svsticky.nl/api/activities/2122/poster" alt="St. Patricks Day" />
-      </article>
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2122/poster" alt="St. Patricks Day" />
+        </article>
 
-      <article class="activity-card">
-        <img src="https://koala.svsticky.nl/api/activities/2121/poster" alt="Origami cursus" />
-      </article>
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2121/poster" alt="Origami cursus" />
+        </article>
 
-      <article class="activity-card">
-        <img src="https://koala.svsticky.nl/api/activities/2120/poster" alt="Extra Activity" />
-      </article>
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2120/poster" alt="Extra Activity" />
+        </article>
 
-      <article class="activity-card">
-        <img src="https://koala.svsticky.nl/api/activities/2119/poster" alt="Extra Activity 2" />
-      </article>
-    </div>
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2119/poster" alt="Extra Activity 2" />
+        </article>
+      </div>
 
-    <a href="/activiteiten" class="all-activities-btn">Bekijk alle activiteiten</a>
-  </section>
+      <a href="/activiteiten" class="all-activities-btn">Bekijk alle activiteiten</a>
+    </section>
 
 
-</main>
+  </main>
+</Layout>
+
 
 <!-- =========================================================== -->
 <!-- ============================ CSS ========================== -->

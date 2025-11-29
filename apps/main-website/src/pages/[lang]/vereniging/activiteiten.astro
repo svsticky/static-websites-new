@@ -1,0 +1,218 @@
+---
+import Layout from "../../../components/Layout.astro";
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
+const { lang } = Astro.params;
+---
+
+<Layout title={lang === "nl" ? "Activiteiten" : "Activities"}>
+  <main>
+      <h1> Activiteiten</h1>
+    <!-- =========================================================== -->
+    <!-- ==================== KOMENDE ACTIVITEITEN ================= -->
+    <!-- =========================================================== -->
+
+    <section class="activiteiten-section">
+      <h2>Komende <b>activiteiten</b></h2>
+
+      <div class="activities-grid">
+
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2125/poster" alt="" />
+          <div class="act-info">
+            <h3>Karaoke Avond</h3>
+            <time>12 december 2025</time>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2124/poster" alt="" />
+          <div class="act-info">
+            <h3>St. Patricks Day Borrel</h3>
+            <time>17 maart 2025</time>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2123/poster" alt="" />
+          <div class="act-info">
+            <h3>Origami Workshop</h3>
+            <time>22 april 2025</time>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2122/poster" alt="" />
+          <div class="act-info">
+            <h3>LAN Party 2025</h3>
+            <time>4 mei 2025</time>
+          </div>
+        </article>
+
+        <article class="activity-card">
+          <img src="https://koala.svsticky.nl/api/activities/2121/poster" alt="" />
+          <div class="act-info">
+            <h3>Zomer BBQ</h3>
+            <time>28 juni 2025</time>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Scheidingslijn -->
+    <hr class="activities-separator" />
+
+    <!-- =========================================================== -->
+    <!-- ======================== VERLEDEN ========================= -->
+    <!-- =========================================================== -->
+
+    <section class="activiteiten-section">
+      <h2>Eerdere <b>activiteiten</b></h2>
+
+      <!-- ================= MAAND BLOK ================= -->
+      <div class="month-block">
+        <h3 class="month-title">November 2025</h3>
+
+        <div class="activities-grid">
+
+          <article class="activity-card past">
+            <img src="https://koala.svsticky.nl/api/activities/2100/poster" />
+            <div class="act-info">
+              <h3>Gamejam</h3>
+              <time>14 november</time>
+            </div>
+          </article>
+
+          <article class="activity-card past">
+            <img src="https://koala.svsticky.nl/api/activities/2101/poster" />
+            <div class="act-info">
+              <h3>Bowlen met Sticky</h3>
+              <time>3 november</time>
+            </div>
+          </article>
+
+        </div>
+      </div>
+
+      <!-- ================= MAAND BLOK ================= -->
+      <div class="month-block">
+        <h3 class="month-title">Oktober 2025</h3>
+
+        <div class="activities-grid">
+
+          <article class="activity-card past">
+            <img src="https://koala.svsticky.nl/api/activities/2090/poster" />
+            <div class="act-info">
+              <h3>Halloween Party</h3>
+              <time>31 oktober</time>
+            </div>
+          </article>
+
+          <article class="activity-card past">
+            <img src="https://koala.svsticky.nl/api/activities/2091/poster" />
+            <div class="act-info">
+              <h3>Spellenavond</h3>
+              <time>18 oktober</time>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>
+
+
+<style lang="scss" is:global>
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+h1, h2, h3 {
+  hyphens: auto;
+}
+
+h1 b, h2 b, h3 b {
+  color: #fa6b20;
+}
+
+/* =============== ACTIVITEITEN PAGINA =============== */
+
+.activiteiten-section {
+  margin: 4rem 0;
+}
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: 2rem;
+}
+
+.activity-card {
+  background: white;
+  border-radius: 1.4rem;
+  overflow: hidden;
+  transition: transform 0.15s ease;
+
+  box-shadow:
+    0 1rem 2.5rem rgba(0,0,0,0.06),
+    0 0.4rem 1rem rgba(0,0,0,0.04);
+}
+
+.activity-card:hover {
+  transform: translateY(-4px);
+}
+
+.activity-card img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.act-info {
+  padding: 1rem 1.4rem;
+}
+
+.act-info h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.act-info time {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.95rem;
+  opacity: 0.75;
+}
+
+.activity-card.past {
+  opacity: 0.9;
+}
+
+.activities-separator {
+  margin: 5rem 0 3rem;
+  border: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(0,0,0,0.15),
+    transparent
+  );
+}
+
+.month-block {
+  margin-bottom: 4rem;
+}
+
+.month-title {
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+  opacity: 0.85;
+}
+</style>

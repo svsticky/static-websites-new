@@ -1,0 +1,17 @@
+---
+import type { Config } from "@svsticky/content";
+import sdk from "../../../sdk";
+
+export async function getStaticPaths() {
+    const { docs } = await sdk.find({ collection: "main-news-item", draft: false, select: { id: true } });
+    return docs.flatMap(doc => [{ params: { id: doc.id, lang: "nl" } }, { params: { id: doc.id, lang: "en" } }]);
+}
+
+const { lang, id } = Astro.params as { lang: Config["locale"], id: number };
+
+const newsItem = await sdk.findByID({ collection: "main-news-item", id, locale: lang });
+---
+
+<h1>
+    {newsItem.title}
+</h1>

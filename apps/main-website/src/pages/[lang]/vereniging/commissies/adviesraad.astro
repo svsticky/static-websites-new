@@ -1,45 +1,50 @@
 ---
+import Layout from "../../../../components/Layout.astro";
+import type { Config } from "@svsticky/content";
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
+const { lang } = Astro.params as { lang: Config["locale"] };
 ---
-<main>
 
-  <!-- WITTE KAART -->
-  <div class="committee-card">
+<Layout title={lang === "nl" ? "Adviesraad" : "Advisory board"}>
+  <main>
+    <!-- WITTE KAART -->
+    <div class="committee-card">
 
-    <!-- TITEL -->
-    <div class="committee-header">
-      <h1 class="committee-title">Adviesraad</h1>
-    </div>
-
-    <div class="committee-content">
-
-      <!-- LOGO -->
-      <div class="logo-wrapper">
-        <img 
-          src="https://images.ctfassets.net/7cqe14fu3dhm/2uEeLuEKq2XFjU5G0oIBW8/5ae90017a12c787012bf91be581790ef/AR_Logo_niet_transparant.png"
-          alt="Logo Adviesraad"
-        />
+      <!-- TITEL -->
+      <div class="committee-header">
+        <h1 class="committee-title">Adviesraad</h1>
       </div>
 
-      <!-- TEKST RECHTS -->
-      <div class="committee-text">
-        <div class="info-block">
-          <h3>Over de Adviesraad</h3>
-          <p>
-            Joeeeeeeeeeeeeeeeeeee
-          </p>
+      <div class="committee-content">
+
+        <!-- LOGO -->
+        <div class="logo-wrapper">
+          <img 
+            src="https://images.ctfassets.net/7cqe14fu3dhm/2uEeLuEKq2XFjU5G0oIBW8/5ae90017a12c787012bf91be581790ef/AR_Logo_niet_transparant.png"
+            alt="Logo Adviesraad"
+          />
         </div>
+
+        <!-- TEKST RECHTS -->
+        <div class="committee-text">
+          <div class="info-block">
+            <h3>Over de Adviesraad</h3>
+            <p>
+              Joeeeeeeeeeeeeeeeeeee
+            </p>
+          </div>
+        </div>
+
       </div>
 
     </div>
 
-  </div>
-
-  <!-- NAVIGATIEKNOPPEN -->
-  <div class="committee-nav">
-    <a href="/nl/vereniging/commissies" class="nav-btn back">← Terug naar overzicht</a>
-  </div>
-
-</main>
+    <!-- NAVIGATIEKNOPPEN -->
+    <div class="committee-nav">
+      <a href="/nl/vereniging/commissies" class="nav-btn back">← Terug naar overzicht</a>
+    </div>
+  </main>
+</Layout>
 
 <style>
 

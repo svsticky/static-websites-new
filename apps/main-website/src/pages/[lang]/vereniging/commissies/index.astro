@@ -1,0 +1,178 @@
+---
+import Layout from "../../../../components/Layout.astro";
+import type { Config } from "@svsticky/content";
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
+const { lang } = Astro.params as { lang: Config["locale"] };
+---
+
+<Layout title={lang === "nl" ? "Commissies" : "Committees"}>
+  <main>
+
+    <!-- ========================= -->
+    <!--   TITEL                  -->
+    <!-- ========================= -->
+
+    <section class="section-title">
+      <h1>Commissies</h1>
+    </section>
+
+    <!-- ========================= -->
+    <!--   COMMISSIE-GRID         -->
+    <!-- ========================= -->
+
+    <section class="comm-grid">
+
+      <a class="comm-card adviesraad" href="/nl/vereniging/commissies/adviesraad">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/2uEeLuEKq2XFjU5G0oIBW8/5ae90017a12c787012bf91be581790ef/AR_Logo_niet_transparant.png" alt="Adviesraad" />
+        <p>Adviesraad</p>
+      </a>
+
+      <a class="comm-card airco" href="/nl/vereniging/commissies/airco">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/5vL09rcHewAfCEw2qRPx0B/dea941fdea092c05e65f4203400e9db1/Logo_NogBetereKwaliteit.png" alt="AirCo" />
+        <p>Airco</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/45jrHuZfgVioeZdgiOY99R/b53a04dce668bde6613b6a9ea55d3edf/ALW_logo__1_.png" alt="ALW" />
+        <p>ALW</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/4FceQEboGHu8EZwRrghjC/7a9665b39e737bd1347f05fd4ef4794d/attac.svg" alt="ALW" />
+        <p>AttaC</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/4tmTpM6augPmGEuGpdmkP0/f32899ef33f47d70673fd5df5cfa3568/BaCo_Logo.png" alt="ALW" />
+        <p>BaCo</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/273X6dw6huaCAmmEuoSeKC/8a0af5eed58534edc52c156176fff833/CommIT.svg" alt="ALW" />
+        <p>CommIT</p>
+      </a>
+
+      <a class="comm-card adviesraad" href="/nl/vereniging/commissies/adviesraad">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/2uEeLuEKq2XFjU5G0oIBW8/5ae90017a12c787012bf91be581790ef/AR_Logo_niet_transparant.png" alt="Adviesraad" />
+        <p>Adviesraad</p>
+      </a>
+
+      <a class="comm-card airco" href="/nl/vereniging/commissies/airco">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/5vL09rcHewAfCEw2qRPx0B/dea941fdea092c05e65f4203400e9db1/Logo_NogBetereKwaliteit.png" alt="AirCo" />
+        <p>Airco</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/45jrHuZfgVioeZdgiOY99R/b53a04dce668bde6613b6a9ea55d3edf/ALW_logo__1_.png" alt="ALW" />
+        <p>ALW</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/4FceQEboGHu8EZwRrghjC/7a9665b39e737bd1347f05fd4ef4794d/attac.svg" alt="ALW" />
+        <p>AttaC</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/4tmTpM6augPmGEuGpdmkP0/f32899ef33f47d70673fd5df5cfa3568/BaCo_Logo.png" alt="ALW" />
+        <p>BaCo</p>
+      </a>
+
+      <a class="comm-card alw" href="/nl/vereniging/commissies/alw">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/273X6dw6huaCAmmEuoSeKC/8a0af5eed58534edc52c156176fff833/CommIT.svg" alt="ALW" />
+        <p>CommIT</p>
+      </a>
+
+      <!-- hier moet de rest -->
+
+    </section>
+  </main>
+</Layout>
+
+<style>
+
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+/* ======================= */
+/*   TITEL                 */
+/* ======================= */
+
+.section-title {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.section-title h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+/* ======================= */
+/*  COMMISSIE GRID         */
+/* ======================= */
+
+.comm-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .comm-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .comm-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ======================= */
+/*  CARD STYLING           */
+/* ======================= */
+
+.comm-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.3rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #242424;
+  box-shadow: 0 0.8rem 1.5rem rgba(0,0,0,0.06);
+  transition: 0.2s ease;
+}
+
+.comm-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.12);
+}
+
+/* LOGO */
+.comm-card img {
+  width: 70%;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+/* NAAM */
+.comm-card p {
+  font-weight: 700;
+  font-size: 1rem;
+  background: rgba(0,0,0,0.05);
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.4rem;
+}
+
+</style>

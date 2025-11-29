@@ -3,9 +3,19 @@
         src="https://public.svsticky.nl/logos/logo_compact_outline_wit.svg"
         alt="Logo SV Sticky"
     />
-    <ul>
+    <ul class="toplevel-links">
         <li class="dropdown"><a href="index.astro">Home</a></li>
-        <li class="dropdown"><a href="#vereniging">Vereniging</a></li>
+        <li class="dropdown">
+            <a class="dropdown-link">
+                Vereniging
+                <i class="fa-solid fa-caret-down" />
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="/vereniging/activiteiten">Activiteiten</a></li>
+                <li><a href="/vereniging/bestuur">Bestuur</a></li>
+                <li><a href="/vereniging/commissies">Commissies</a></li>
+            </ul>
+        </li>
         <li class="dropdown"><a href="#studie">Studie</a></li>
         <li class="dropdown"><a href="#carriere">Carrière</a></li>
         <li class="dropdown"><a href="#contact">Contact</a></li>
@@ -17,6 +27,16 @@
 </nav>
 
 <script>
+    const dropdownLinks = document.getElementsByClassName("dropdown-link");
+    for (const dropdownLink of dropdownLinks) {
+        dropdownLink.addEventListener("click", () => {
+            const caret = dropdownLink.children[1]! as HTMLElement;
+            caret.style.transform = "rotate(180deg)";
+            const menu = dropdownLink.nextElementSibling! as HTMLUListElement;
+            menu.style.display = menu.style.display === "none" ? "block" : "none";
+        });
+    }
+
     document
         .getElementById("nav-icon")!
         .addEventListener("click", (_) =>
@@ -28,6 +48,7 @@
             document.querySelector("nav")!.classList.remove("responsive"),
         );
     });
+
 </script>
 
 <style lang="scss">
@@ -49,22 +70,53 @@
             align-self: flex-start;
         }
 
-        ul {
+        ul.toplevel-links {
             display: none;
             list-style-type: none;
             margin: 0;
 
-            li a {
-                display: inline-block;
-                color: white;
-                padding: 3px;
-                text-decoration: none;
-                transition: transform 0.2s ease, opacity 0.2s ease;
+            li {
+                position: relative;
 
-                &:hover {
+                a {
+                    display: inline-block;
+                    color: white;
+                    padding: 3px;
                     text-decoration: none;
-                    opacity: 0.8;
-                    transform: translateY(-3px);
+                    transition: transform 0.2s ease, opacity 0.2s ease;
+                    cursor: pointer;
+                }
+
+                i.fa-caret-down {
+                    color: white;
+                }
+
+                .dropdown-menu {
+                    display: block;
+                    position: absolute;
+                    top: 2rem;
+                    background: white;
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                    text-align: center;
+                    z-index: 50;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    border-radius: .5rem;
+                    border: 1px solid black;
+                    
+                    li {
+                        padding: .5rem 1rem;
+
+                        &:not(:last-child) {
+                            border-bottom: 1px solid black;
+                        }
+
+                        a {
+                            color: black;
+                        }
+                    }
                 }
             }
 
@@ -125,7 +177,7 @@
                 display: none;
             }
 
-            ul {
+            ul.toplevel-links {
                 display: flex;
                 gap: 2rem;
                 margin: auto 0;
