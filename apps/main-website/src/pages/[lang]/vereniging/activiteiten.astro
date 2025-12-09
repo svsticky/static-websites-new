@@ -12,65 +12,11 @@ const { lang } = Astro.params;
       <coming-activities data-api-url="https://koala.svsticky.nl/api/activities" class="activities-grid"></coming-activities>
     </section>
 
-    <!-- Scheidingslijn -->
     <hr class="activities-separator" />
-
-    <!-- =========================================================== -->
-    <!-- ======================== VERLEDEN ========================= -->
-    <!-- =========================================================== -->
 
     <section class="activiteiten-section">
       <h2>Eerdere <b>activiteiten</b></h2>
-
-      <!-- ================= MAAND BLOK ================= -->
-      <div class="month-block">
-        <h3 class="month-title">November 2025</h3>
-
-        <div class="activities-grid">
-
-          <article class="activity-card past">
-            <img src="https://koala.svsticky.nl/api/activities/2100/poster" />
-            <div class="act-info">
-              <h3>Gamejam</h3>
-              <time>14 november</time>
-            </div>
-          </article>
-
-          <article class="activity-card past">
-            <img src="https://koala.svsticky.nl/api/activities/2101/poster" />
-            <div class="act-info">
-              <h3>Bowlen met Sticky</h3>
-              <time>3 november</time>
-            </div>
-          </article>
-
-        </div>
-      </div>
-
-      <!-- ================= MAAND BLOK ================= -->
-      <div class="month-block">
-        <h3 class="month-title">Oktober 2025</h3>
-
-        <div class="activities-grid">
-
-          <article class="activity-card past">
-            <img src="https://koala.svsticky.nl/api/activities/2090/poster" />
-            <div class="act-info">
-              <h3>Halloween Party</h3>
-              <time>31 oktober</time>
-            </div>
-          </article>
-
-          <article class="activity-card past">
-            <img src="https://koala.svsticky.nl/api/activities/2091/poster" />
-            <div class="act-info">
-              <h3>Spellenavond</h3>
-              <time>18 oktober</time>
-            </div>
-          </article>
-
-        </div>
-      </div>
+      <past-activities data-api-url="https://koala.svsticky.nl/api/activities" />
     </section>
   </main>
 </Layout>
@@ -100,7 +46,7 @@ function createCard(activity: Activity): HTMLElement {
 
   const time = document.createElement("time");
   const d = new Date(activity.start_date)
-  time.innerText = `${d.getDate()}-${d.getMonth()}-${d.getFullYear()}`;
+  time.innerText = `${d.getDate()}-${d.getMonth() + 1}-${d.getFullYear()}`;
   info.appendChild(time);
 
   article.appendChild(info);
@@ -117,8 +63,70 @@ class ComingActivities extends HTMLElement {
     });
   }
 }
-
 customElements.define("coming-activities", ComingActivities);
+
+const months = [
+  "Januari",
+  "Februari",
+  "Maart",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Augustus",
+  "September",
+  "Oktober",
+  "November",
+  "December"
+];
+
+function createMonth(month: number, activities: Activity[]): HTMLElement {
+  const monthBlock = document.createElement("div");
+  monthBlock.classList.add("month-block");
+
+  const monthTitle = document.createElement("h3");
+
+  const thisMonth = new Date().getMonth();
+  const thisYear = new Date().getFullYear();
+  monthTitle.innerText = `${months[month]} ${month <= thisMonth ? thisYear : thisYear - 1}`;
+  monthBlock.appendChild(monthTitle);
+
+  const activitiesGrid = document.createElement("div");
+  activitiesGrid.classList.add("activities-grid");
+
+  for (const activity of activities) 
+    activitiesGrid.appendChild(createCard(activity));
+  
+  monthBlock.appendChild(activitiesGrid);
+
+  return monthBlock;
+}
+
+class PastActivities extends HTMLElement {
+  connectedCallback() {
+    const url = new URL(this.dataset["api-url"]!);
+    const today = new Date();
+    const threeMonthsAgo = new Date(today.getTime() - 1000 * 60 * 60 * 24 * 63);
+    url.searchParams.append("from", `${threeMonthsAgo.getFullYear()}-${threeMonthsAgo.getMonth() + 1}-${threeMonthsAgo.getDate()}`);
+    url.searchParams.append("to", `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`);
+    fetch(url).then(resp => resp.json()).then((activities: Activity[]) => {
+      const months: Record<string, Activity[]> = {};
+      for (const activity of activities) {
+        const month = new Date(activity.start_date).getMonth()
+        if (!months[month]) months[month] = [];
+        months[month].push(activity);
+      }
+
+      const distanceToCurrentMonth = (m: string) => today.getMonth() - Number(m);
+      const sortedMonths = Object.keys(months).toSorted((a, b) => distanceToCurrentMonth(a) - distanceToCurrentMonth(b));
+      for (const month of sortedMonths) {
+        const activitiesInMonth = months[month].toSorted((a, b) => new Date(b.start_date).getTime() - new Date(a.start_date).getTime());
+        this.appendChild(createMonth(Number(month), activitiesInMonth));
+      }
+    });
+  }
+}
+customElements.define("past-activities", PastActivities);
 </script>
 
 <style lang="scss" is:global>
