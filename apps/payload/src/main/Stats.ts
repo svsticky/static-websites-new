@@ -27,7 +27,8 @@ export const Stats: GlobalConfig = {
                 },
                 {
                     name: "unit",
-                    type: "text"
+                    type: "text",
+                    localized: true
                 },
                 {
                     name: "description",
