@@ -85,6 +85,7 @@ export default async function(p: Payload) {
                     description: year >= 2024 ? richTextLorem(fakerNL, { min: 1, max: 2 }) : undefined
                 }))
             },
+            draft: false,
             locale: "nl"
         });
 
@@ -99,7 +100,8 @@ export default async function(p: Payload) {
                     description: year >= 2024 ? richTextLorem(fakerEN, { min: 1, max: 2 }) : undefined
                 }))
             },
-            locale: "en"
+            locale: "en",
+            draft: false
         });
     }
 
@@ -127,7 +129,8 @@ export default async function(p: Payload) {
                 name: fakerEN.company.name(),
                 about: richTextLorem(faker, { min: 1, max: 3 })
             },
-            locale: "en"
+            locale: "en",
+            draft: false
         });
     }
 
@@ -147,6 +150,7 @@ export default async function(p: Payload) {
                 createdAt: date.toString(),
                 updatedAt: date.toString(),
             },
+            draft: false,
             locale: "nl"
         });
 
@@ -158,7 +162,8 @@ export default async function(p: Payload) {
                 title: fakerEN.book.title(),
                 content: richTextLorem(fakerEN, { min: 2, max: 5 })
             },
-            locale: "en"
+            locale: "en",
+            draft: false
         });
     }
 

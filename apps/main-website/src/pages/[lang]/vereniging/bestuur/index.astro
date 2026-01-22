@@ -6,7 +6,7 @@ import sdk from "../../../../sdk";
 export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
 const { lang } = Astro.params as { lang: Config["locale"] };
 
-const boards = (await sdk.find({ collection: "main-board", draft: false, locale: lang })).docs;
+const boards = (await sdk.find({ collection: "main-board", draft: false, locale: lang, limit: 0 })).docs;
 boards.sort((a, b) => b.board_number - a.board_number);
 const currentBoard = boards[0];
 const oldBoards = boards.slice(1);

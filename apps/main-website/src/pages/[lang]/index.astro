@@ -8,7 +8,7 @@ import Layout from "../../components/Layout.astro";
 
 export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
 
-const { lang } = Astro.props as { lang: Config["locale"] };
+const { lang } = Astro.params as { lang: Config["locale"] };
 
 const hero = await sdk.findGlobal({ slug: "main-hero", locale: lang });
 const images = (hero.pictures as Media[]).map(picture => ({ title: picture.alt, url: picture.url! }));
@@ -578,7 +578,7 @@ function animateStatCounters(entry) {
       const progress = Math.min((now - start) / duration, 1);
       const value = Math.floor(progress * target);
 
-      el.textContent = value + (includeUnit ? unit : "");
+      el.textContent = value + (includeUnit ? ` ${unit}` : "");
 
       if (progress < 1) requestAnimationFrame(update);
       else el.textContent = value + unit;
