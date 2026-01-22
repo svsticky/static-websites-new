@@ -66,5 +66,9 @@ export default buildConfig({
   plugins: [
     // storage-adapter-placeholder
   ],
-  cors: ["http://localhost:5173"]
+  cors: ["http://localhost:5173"],
+  bin: [{
+    scriptPath: path.resolve(dirname, "seeds", "index.ts"),
+    key: "seed"
+  }]
 })

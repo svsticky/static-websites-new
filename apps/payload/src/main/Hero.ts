@@ -1,4 +1,4 @@
-import { GlobalConfig, TextFieldSingleValidation } from "payload";
+import { GlobalConfig } from "payload";
 
 export const Hero: GlobalConfig = {
     slug: "main-hero",
