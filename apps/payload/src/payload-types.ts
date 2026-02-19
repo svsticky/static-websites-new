@@ -78,12 +78,21 @@ export interface Config {
     'main-news-item': MainNewsItem;
     'main-committee': MainCommittee;
     'main-board': MainBoard;
+    company: Company;
+    'company-contact': CompanyContact;
+    vacancy: Vacancy;
+    study: Study;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    company: {
+      contacts: 'company-contact';
+      vacancies: 'vacancy';
+    };
+  };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -96,6 +105,10 @@ export interface Config {
     'main-news-item': MainNewsItemSelect<false> | MainNewsItemSelect<true>;
     'main-committee': MainCommitteeSelect<false> | MainCommitteeSelect<true>;
     'main-board': MainBoardSelect<false> | MainBoardSelect<true>;
+    company: CompanySelect<false> | CompanySelect<true>;
+    'company-contact': CompanyContactSelect<false> | CompanyContactSelect<true>;
+    vacancy: VacancySelect<false> | VacancySelect<true>;
+    study: StudySelect<false> | StudySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -409,6 +422,103 @@ export interface MainBoard {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company".
+ */
+export interface Company {
+  id: number;
+  name: string;
+  slug: string;
+  logo: number | Media;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  website?: string | null;
+  contacts?: {
+    docs?: (number | CompanyContact)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  vacancies?: {
+    docs?: (number | Vacancy)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-contact".
+ */
+export interface CompanyContact {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  company: number | Company;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vacancy".
+ */
+export interface Vacancy {
+  id: number;
+  title: string;
+  slug: string;
+  summary: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  type?: ('1' | '2' | '3' | '4' | '5' | '6' | '7')[] | null;
+  studies?: (number | Study)[] | null;
+  company: number | Company;
+  contact?: (number | null) | CompanyContact;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "study".
+ */
+export interface Study {
+  id: number;
+  name: string;
+  abbreviation: string;
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -474,6 +584,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'main-board';
         value: number | MainBoard;
+      } | null)
+    | ({
+        relationTo: 'company';
+        value: number | Company;
+      } | null)
+    | ({
+        relationTo: 'company-contact';
+        value: number | CompanyContact;
+      } | null)
+    | ({
+        relationTo: 'vacancy';
+        value: number | Vacancy;
+      } | null)
+    | ({
+        relationTo: 'study';
+        value: number | Study;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -679,6 +805,63 @@ export interface MainBoardSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company_select".
+ */
+export interface CompanySelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  logo?: T;
+  description?: T;
+  website?: T;
+  contacts?: T;
+  vacancies?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "company-contact_select".
+ */
+export interface CompanyContactSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  company?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "vacancy_select".
+ */
+export interface VacancySelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  summary?: T;
+  content?: T;
+  type?: T;
+  studies?: T;
+  company?: T;
+  contact?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "study_select".
+ */
+export interface StudySelect<T extends boolean = true> {
+  name?: T;
+  abbreviation?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

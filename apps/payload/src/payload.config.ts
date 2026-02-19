@@ -27,6 +27,10 @@ import { Stats } from './main/Stats'
 import { NewsItem } from './main/NewsItem'
 import { Committee } from './main/Committee'
 import { Board } from './main/Board'
+import { Company } from './vacancies/Company'
+import { CompanyContact } from './vacancies/CompanyContact'
+import { Vacancy } from './vacancies/Vacancy'
+import { Study } from './vacancies/Study'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -46,7 +50,11 @@ export default buildConfig({
       }
     }
   },
-  collections: [Users, Media, Person, FAQQuestion, Supermentor, Ad, BoardMessage, Quote, NewsItem, Committee, Board],
+  collections: [
+    Users, Media, Person, FAQQuestion, Supermentor, Ad, BoardMessage,
+    Quote, NewsItem, Committee, Board, Company, CompanyContact, Vacancy,
+    Study
+  ],
   globals: [Association, Contact, FAQ, IntroHero, Information, Signup, SmallPrint, Theme, MainHero, Stats],
   localization: {
     locales: ["nl", "en"],
