@@ -1,3 +1,4 @@
+import { url_field } from "@/fields/url";
 import { CollectionConfig } from "payload";
 
 export const Company: CollectionConfig = {
@@ -31,11 +32,9 @@ export const Company: CollectionConfig = {
             type: "richText",
             localized: true
         },
-        {
+        url_field({
             name: "website",
-            type: "text",
-            // TODO: Add validation for valid urls
-        },
+        }),
         {
             name: "contacts",
             type: "join",

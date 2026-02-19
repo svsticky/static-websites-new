@@ -1166,7 +1166,7 @@ export interface MainHero {
   buttons?:
     | {
         label: string;
-        link: string;
+        link?: string | null;
         id?: string | null;
       }[]
     | null;

@@ -1,3 +1,4 @@
+import { TelephoneField } from "@nouance/payload-better-fields-plugin/Telephone";
 import { CollectionConfig } from "payload";
 
 export const CompanyContact: CollectionConfig = {
@@ -19,11 +20,7 @@ export const CompanyContact: CollectionConfig = {
             type: "email",
             required: true
         },
-        {
-            name: "phone",
-            type: "text",
-            // TODO: Add validation for phone numbers
-        },
+        ...TelephoneField({ name: "phone" }, { defaultCountry: "NL" }),
         {
             name: "company",
             type: "relationship",

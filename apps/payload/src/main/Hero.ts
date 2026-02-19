@@ -1,3 +1,4 @@
+import { url_field } from "@/fields/url";
 import { GlobalConfig } from "payload";
 
 export const Hero: GlobalConfig = {
@@ -33,26 +34,7 @@ export const Hero: GlobalConfig = {
                     localized: true,
                     required: true
                 },
-                {
-                    type: "text",
-                    name: "link",
-                    required: true,
-                    validate: (value: string | null | undefined) => {
-                        if (!value) return "No value";
-                        if (/^(\/\w*)+/.test(value)) {
-                            return true;
-                        } else {
-                            try {
-                                const url = new URL(value);
-                                if (!(url.protocol === "http:" || url.protocol === "https:"))
-                                    return "Invalid protocol";
-                                return true;
-                            } catch {
-                                return "Invalid URL";
-                            }
-                        }
-                    }
-                }
+                url_field({ name: "link" })
             ]
         }
     ]
