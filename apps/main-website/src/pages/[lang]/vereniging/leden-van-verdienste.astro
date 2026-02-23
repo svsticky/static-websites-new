@@ -1,0 +1,135 @@
+---
+import Layout from "../../../components/Layout.astro";
+
+export const getStaticPaths = () => [{ params: { lang: "nl" } }, { params: { lang: "en" } }];
+const { lang } = Astro.params as { lang: "nl" | "en" };
+
+const photos = [
+  "https://images.ctfassets.net/7cqe14fu3dhm/4kVQtIOuSjJ7TTLVC6QDGW/704cc1cf4d1714fc866a9f982223c09a/Tjitske.png",
+  "https://images.ctfassets.net/7cqe14fu3dhm/1VhFcmzVa0GNDmAUwlEjc4/76818074aeb6b0f664c73c8cd3ef7200/Rob.png",
+  "https://images.ctfassets.net/7cqe14fu3dhm/71vhIwhIuYYDW77DqWAjF2/20d50f4480952c5a60a765f0e3c4aeeb/Paul.png",
+  "https://images.ctfassets.net/7cqe14fu3dhm/4XBFAFYJ7XAweySNk2t5pf/0f89dcb4a109caf906ad15bb9bcb55b6/Martijn.png",
+];
+---
+
+<Layout title={lang === "nl" ? "Leden der Verdienste" : "Members of Merit"}>
+  <main>
+    <h1>{lang === "nl" ? "Leden der Verdienste" : "Members of Merit"}</h1>
+
+    <div class="member-cards">
+      {[
+        {
+          name: "Tjitske Visser",
+          year: "2011",
+          description:
+            "Op de oorkonde van Tjitske staat: Wegens de buitengewone inspanningen die zij geleverd heeft bij de oprichting van de vereniging en bij de eerste twee jaren van haar bestaan, en haar inspanningen als eerste voorzitter van de vereniging.",
+        },
+        {
+          name: "Rob van Weeghel",
+          year: "2011",
+          description:
+            "Op de oorkonde van Rob staat: Wegens de buitengewone inspanningen die hij geleverd heeft bij de oprichting van de vereniging en bij de eerste twee jaren van haar bestaan, en zijn inspanningen als eerste penningmeester van de vereniging.",
+        },
+        {
+          name: "Paul Brinkkemper",
+          year: "2011",
+          description:
+            "Op de oorkonde van Paul staat: Wegens de buitengewone inspanningen die hij geleverd heeft bij de oprichting van de vereniging en bij de eerste twee jaren van haar bestaan, en zijn inspanningen als eerste secretaris van de vereniging.",
+        },
+        {
+          name: "Martijn Casteel",
+          year: "2020",
+          description:
+            "Op de oorkonde van Martijn staat: Voor het ontwikkelen en onderhouden van de unieke online-omgeving Koala, waarmee hij een onmisbare bijdrage aan de vereniging heeft geleverd.",
+        },
+      ].map((member, index) => (
+        <div class={`member-card ${index % 2 === 0 ? "left" : "right"}`}>
+          <img src={photos[index]} alt={member.name} loading="lazy" />
+          <div class="member-info">
+            <h4>{member.name} ({member.year})</h4>
+            <p>{member.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </main>
+</Layout>
+
+<style>
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+h1 {
+  margin: 3rem 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 800;
+}
+
+/* CONTACT CARDS */
+.member-cards {
+  margin-top: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.member-card {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.06);
+}
+
+.member-card img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #242424;
+}
+
+.member-info h4 {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #242424;
+}
+
+.member-info p {
+  margin: 0.4rem 0 0;
+  opacity: 0.85;
+  line-height: 1.45;
+}
+
+/* LINKS / RECHTS AFWISSELING */
+.member-card.left {
+  flex-direction: row;
+}
+
+.member-card.right {
+  flex-direction: row-reverse;
+  text-align: right;
+}
+
+/* MOBIEL */
+@media (max-width: 700px) {
+  .member-card,
+  .member-card.right,
+  .member-card.left {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .member-card img {
+    margin-bottom: 0.8rem;
+  }
+}
+</style>

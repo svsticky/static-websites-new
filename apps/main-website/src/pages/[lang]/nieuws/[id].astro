@@ -1,6 +1,8 @@
 ---
+import Layout from "../../../components/Layout.astro"; // pas pad aan
 import type { Config } from "@svsticky/content";
 import sdk from "../../../sdk";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
 
 export async function getStaticPaths() {
     const { docs } = await sdk.find({ collection: "main-news-item", draft: false, select: { id: true } });
@@ -12,6 +14,58 @@ const { lang, id } = Astro.params as { lang: Config["locale"], id: number };
 const newsItem = await sdk.findByID({ collection: "main-news-item", id, locale: lang });
 ---
 
-<h1>
-    {newsItem.title}
-</h1>
+<Layout title={newsItem.title}>
+  <main>
+    <div class="white-card">
+      <h1>{newsItem.title}</h1>
+      <div set:html={convertLexicalToHTML({ data: newsItem.content })}></div>
+    </div>
+    
+    <div class="news-nav">
+      <a href={`/${lang}`} class="nav-btn">
+        Terug naar home
+      </a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+.white-card {
+  background: white;
+  padding: 2.5rem 2.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.06);
+  margin: 3rem 0;
+}
+
+.news-nav {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.nav-btn {
+  background: #fa6b20;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.nav-btn:hover {
+  background: #ff5a01;
+}
+
+</style>

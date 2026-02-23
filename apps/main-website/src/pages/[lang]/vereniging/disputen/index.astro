@@ -1,0 +1,137 @@
+---
+import Layout from "../../../../components/Layout.astro";
+import type { Config } from "@svsticky/content";
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
+const { lang } = Astro.params as { lang: Config["locale"] };
+---
+
+<Layout title={lang === "nl" ? "Disputen" : "Societies"}>
+  <main>
+
+    <!-- ========================= -->
+    <!--   TITEL                  -->
+    <!-- ========================= -->
+
+    <section class="section-title">
+      <h1>Disputen</h1>
+    </section>
+
+    <!-- ========================= -->
+    <!--   COMMISSIE-GRID         -->
+    <!-- ========================= -->
+
+    <section class="disp-grid">
+
+      <a class="disp-card hypnos" href="/nl/vereniging/commissies/hypnos">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/786H4pr82WDIcEaRwPAiZ5/47228304f289824186df144c59315293/hypnos__1_.png" alt="Hypnos" />
+        <p>Hypnos</p>
+      </a>
+
+      <a class="disp-card fiore" href="/nl/vereniging/commissies/fiore">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/2WkL6nrPDWw2m8qOWMwsec/ed044c97255aa77b306231fae2efc45e/fiore.png" alt="Hypnos" />
+        <p>Fiore</p>
+      </a>
+
+      <a class="disp-card orpheus" href="/nl/vereniging/commissies/orpheus">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/6VckxaIoBGlUupFYOxeTYa/04f4eba8806764cdd0f73f3d64b761bc/WhatsApp_Image_2026-02-23_at_15.24.14.jpeg" alt="Hypnos" />
+        <p>Orpheus</p>
+      </a>
+
+      <a class="disp-card fvst" href="/nl/vereniging/commissies/fvst">
+        <img src="https://images.ctfassets.net/7cqe14fu3dhm/3iAJ360fwOiRrX8fRov3BI/394c3c2e39011828634857c2956fe220/FUST2.png" alt="Hypnos" />
+        <p>F.V.S.T.</p>
+      </a>
+
+
+    </section>
+  </main>
+</Layout>
+
+<style>
+
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+/* ======================= */
+/*   TITEL                 */
+/* ======================= */
+
+.section-title {
+  text-align: center;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+}
+
+.section-title h1 {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+}
+
+/* ======================= */
+/*  DISPUTEN GRID         */
+/* ======================= */
+
+.disp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}
+
+@media (max-width: 900px) {
+  .disp-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .disp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ======================= */
+/*  CARD STYLING           */
+/* ======================= */
+
+.disp-card {
+  background: white;
+  border-radius: 1rem;
+  padding: 1.3rem 0.8rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #242424;
+  box-shadow: 0 0.8rem 1.5rem rgba(0,0,0,0.06);
+  transition: 0.2s ease;
+}
+
+.disp-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.12);
+}
+
+/* LOGO */
+.disp-card img {
+  width: 70%;
+  height: 80px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+}
+
+/* NAAM */
+.disp-card p {
+  font-weight: 700;
+  font-size: 1rem;
+  background: rgba(0,0,0,0.05);
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.4rem;
+}
+
+</style>

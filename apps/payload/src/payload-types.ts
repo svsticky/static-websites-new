@@ -78,6 +78,8 @@ export interface Config {
     'main-news-item': MainNewsItem;
     'main-committee': MainCommittee;
     'main-board': MainBoard;
+    'main-society': MainSociety;
+
     company: Company;
     'company-contact': CompanyContact;
     vacancy: Vacancy;
@@ -104,6 +106,7 @@ export interface Config {
     quote: QuoteSelect<false> | QuoteSelect<true>;
     'main-news-item': MainNewsItemSelect<false> | MainNewsItemSelect<true>;
     'main-committee': MainCommitteeSelect<false> | MainCommitteeSelect<true>;
+    'main-society': MainSocietySelect<false> | MainSocietySelect<true>;
     'main-board': MainBoardSelect<false> | MainBoardSelect<true>;
     company: CompanySelect<false> | CompanySelect<true>;
     'company-contact': CompanyContactSelect<false> | CompanyContactSelect<true>;
@@ -360,6 +363,37 @@ export interface MainCommittee {
   id: number;
   /**
    * The part after /commissies/ in the url of the website
+   */
+  slug: string;
+  name: string;
+  logo: number | Media;
+  about: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-society".
+ */
+export interface MainSociety {
+  id: number;
+  /**
+   * The part after /dispuut/ in the url of the website
    */
   slug: string;
   name: string;
@@ -774,6 +808,19 @@ export interface MainNewsItemSelect<T extends boolean = true> {
  * via the `definition` "main-committee_select".
  */
 export interface MainCommitteeSelect<T extends boolean = true> {
+  slug?: T;
+  name?: T;
+  logo?: T;
+  about?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-society_select".
+ */
+export interface MainSocietySelect<T extends boolean = true> {
   slug?: T;
   name?: T;
   logo?: T;
