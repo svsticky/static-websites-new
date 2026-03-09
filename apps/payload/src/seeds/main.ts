@@ -3,6 +3,7 @@ import { fakerNL, fakerEN, Faker, faker } from "@faker-js/faker";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { richTextLorem } from "./utils";
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -17,34 +18,6 @@ function indexToFunction(index: number, lang: "nl" | "en") {
         case 5: return lang === "nl" ? "Commissaris Onderwijs" : "Commissioner of Educational Affairs";
         default: return "";
     }
-}
-
-function richTextLorem(faker: Faker, { min, max }: { min: number, max: number }) {
-    return {
-        root: {
-            type: "root",
-            children: [{
-                type: "paragraph",
-                children: faker.lorem.paragraphs({ min, max })
-                    .split("\n")
-                    .map(text => ({
-                        type: "text",
-                        text,
-                        version: 1,
-                        format: "" as const,
-                        mode: "normal" as const,
-                        style: ""
-                    })),
-                version: 1,
-                indent: 0,
-                format: "" as const
-            }],
-            version: 1,
-            indent: 0,
-            format: "" as const,
-            direction: "ltr" as const
-        }
-    };
 }
 
 export default async function(p: Payload) {
