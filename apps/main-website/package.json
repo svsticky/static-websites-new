@@ -14,8 +14,10 @@
     "@payloadcms/sdk": "^3.63.0",
     "@svsticky/components": "workspace:*",
     "@svsticky/content": "workspace:*",
+    "@tailwindcss/vite": "^4.2.1",
     "astro": "^5.15.6",
-    "payload": "3.63.0"
+    "payload": "3.63.0",
+    "tailwindcss": "^4.2.1"
   },
   "devDependencies": {
     "@parcel/watcher": "^2.5.1",

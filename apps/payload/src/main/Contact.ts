@@ -3,10 +3,16 @@ import { GlobalConfig } from "payload";
 
 export const Contact: GlobalConfig = {
     slug: "main-contact",
+    label: "Contact page",
+    admin: {
+        group: "Main website"
+    },
     fields: [
         {
             type: "array",
             name: "people",
+            required: true,
+            localized: true,
             fields: [
                 {
                     type: "text",
@@ -24,20 +30,32 @@ export const Contact: GlobalConfig = {
                 {
                     type: "email",
                     name: "email"
+                },
+                {
+                    type: "upload",
+                    relationTo: "media",
+                    required: true,
+                    name: "photo"
                 }
             ]
         },
         {
             name: "address",
-            type: "richText"
+            type: "richText",
+            required: true,
+            localized: true
         },
         {
             name: "postal",
-            type: "richText"
+            type: "richText",
+            required: true,
+            localized: true
         },
         {
             name: "data",
-            type: "richText"
+            type: "richText",
+            required: true,
+            localized: true
         }
     ]
 }

@@ -1,0 +1,53 @@
+---
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+import Layout from "../../../components/Layout.astro";
+import sdk from "../../../sdk";
+import type { Media } from "@svsticky/content";
+
+import Heading from "../../../components/Heading.astro";
+
+import "../../../styles/global.css";
+
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}] as const;
+const { lang } = Astro.params;
+
+const contact = await sdk.findGlobal({ slug: "main-contact", locale: lang });
+
+const bottom_sections = {
+  "Bezoekadres": contact.address,
+  "Postadres": contact.postal,
+  "Overig": contact.data
+};
+---
+
+<Layout title="Contact">
+  <main class="bg-[#f8f8f8] pt-4 px-12">
+    <Heading title="Bestuur" />
+
+    <div class="grid grid-cols-3 gap-8">
+      {contact.people.map(person => (
+        <section class="flex flex-col border border-[#999999] bg-white rounded shadow px-6 py-4">
+          <h3 class="font-bold text-xl mb-4">{person.title}</h3>
+          <div class="grid grid-cols-5 h-full">
+            <img class="rounded-full m-auto" src={(person.photo as Media).url} alt={`${person.name}: contactpersoon voor ${person.title}`}>
+            <div class="col-span-4 flex flex-col pl-4 my-auto">
+              <span class="py-1 border-b border-[#999999]">{person.name} ({person.function})</span>
+              <span class="py-1 border-b border-[#999999]">📞 <a href={`tel:${person.phone}`}>{person.phone}</a></span>
+              <span class="py-1">📧 <a href={`mailto:${person.email}`}>{person.email}</a></span>
+            </div>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <Heading title="Gegevens" />
+    <div class="grid grid-cols-3 gap-8">
+      {Object.entries(bottom_sections).map(([title, data]) => (
+        <section class="border border-[#999999] bg-white rounded shadow px-6 py-4">
+          <h3 class="font-bold text-xl">{title}</h3>
+          <div class="info-block" set:html={convertLexicalToHTML({ data })}></div>
+        </section>
+      ))}
+    </div>
+  </main>
+</Layout>

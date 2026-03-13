@@ -27,3 +27,15 @@ export function richTextLorem(faker: Faker, { min, max }: { min: number, max: nu
         }
     };
 }
+
+export function indexToFunction(index: number, lang: "nl" | "en") {
+    switch (index) {
+        case 0: return lang === "nl" ? "Voorzitter" : "Chair";
+        case 1: return lang === "nl" ? "Secretaris" : "Secretary";
+        case 2: return lang === "nl" ? "Penningmeester" : "Treasurer";
+        case 3: return lang === "nl" ? "Commissaris Intern" : "Commissioner of Internal Affairs";
+        case 4: return lang === "nl" ? "Commissaris Extern" : "Commissioner of External Affairs";
+        case 5: return lang === "nl" ? "Commissaris Onderwijs" : "Commissioner of Educational Affairs";
+        default: return "";
+    }
+}

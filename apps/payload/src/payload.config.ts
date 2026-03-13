@@ -31,6 +31,7 @@ import { Company } from './vacancies/Company'
 import { CompanyContact } from './vacancies/CompanyContact'
 import { Vacancy } from './vacancies/Vacancy'
 import { Study } from './vacancies/Study'
+import { Contact as MainContact } from "./main/Contact"
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -55,7 +56,10 @@ export default buildConfig({
     Quote, NewsItem, Committee, Board, Company, CompanyContact, Vacancy,
     Study
   ],
-  globals: [Association, Contact, FAQ, IntroHero, Information, Signup, SmallPrint, Theme, MainHero, Stats],
+  globals: [
+    Association, Contact, FAQ, IntroHero, Information, Signup, SmallPrint,
+    Theme, MainHero, Stats, MainContact
+  ],
   localization: {
     locales: ["nl", "en"],
     defaultLocale: "nl"

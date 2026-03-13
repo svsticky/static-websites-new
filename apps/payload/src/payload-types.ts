@@ -128,6 +128,7 @@ export interface Config {
     theme: Theme;
     'main-hero': MainHero;
     'main-stats': MainStat;
+    'main-contact': MainContact;
   };
   globalsSelect: {
     association: AssociationSelect<false> | AssociationSelect<true>;
@@ -140,6 +141,7 @@ export interface Config {
     theme: ThemeSelect<false> | ThemeSelect<true>;
     'main-hero': MainHeroSelect<false> | MainHeroSelect<true>;
     'main-stats': MainStatsSelect<false> | MainStatsSelect<true>;
+    'main-contact': MainContactSelect<false> | MainContactSelect<true>;
   };
   locale: 'nl' | 'en';
   user: User & {
@@ -1193,6 +1195,69 @@ export interface MainStat {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-contact".
+ */
+export interface MainContact {
+  id: number;
+  people: {
+    title?: string | null;
+    name?: string | null;
+    function?: string | null;
+    phone?: string | null;
+    email?: string | null;
+    photo: number | Media;
+    id?: string | null;
+  }[];
+  address: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  postal: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  data: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "association_select".
  */
 export interface AssociationSelect<T extends boolean = true> {
@@ -1323,6 +1388,29 @@ export interface MainStatsSelect<T extends boolean = true> {
         include_unit_in_animation?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-contact_select".
+ */
+export interface MainContactSelect<T extends boolean = true> {
+  people?:
+    | T
+    | {
+        title?: T;
+        name?: T;
+        function?: T;
+        phone?: T;
+        email?: T;
+        photo?: T;
+        id?: T;
+      };
+  address?: T;
+  postal?: T;
+  data?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;
