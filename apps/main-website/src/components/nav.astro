@@ -1,189 +1,107 @@
-<nav>
+---
+interface Props { lang: "nl" | "en" }
+const { lang } = Astro.props;
+
+const menus = [
+    { title: "Home", to: "/" },
+    { title: "Vereniging", submenu: [
+        { title: "Activiteiten", to: "/vereniging/activiteiten" },
+        { title: "Bestuur", to: "/vereniging/bestuur" },
+        { title: "Commissies", to: "/vereniging/commissies" }
+    ] },
+    { title: "Studie", submenu: [
+        { title: "Medezeggenschap", to: "/studie/medezeggenschap" },
+        { title: "OER", to: "/studie/oer" },
+        { title: "Boekverkoop", to: "https://svsticky.nl/boeken" }
+    ] },
+    { title: "Carriere", submenu: [
+        { title: "Partners", to: "/carriere/partners" },
+        { title: "Samenwerking", to: "/carriere/samenwerking" },
+        { title: "Vacatures", to: "/carriere/vacatures" }
+    ] },
+    { title: "Koala", to: "https://koala.svsticky.nl", type: "button" },
+    { title: "Word lid", to: "https://wordlid.svsticky.nl", type: "button" }
+];
+
+function localiseUrl(url: string) {
+    if (url.startsWith("http")) {
+        return url;
+    } else {
+        return `/${lang}${url}`;
+    }
+}
+---
+
+<nav class="px-6 flex h-16 justify-between bg-[#fa6b20]">
     <img
+        class="self-start h-full py-2"
         src="https://public.svsticky.nl/logos/logo_compact_outline_wit.svg"
         alt="Logo SV Sticky"
     />
-    <ul class="toplevel-links">
-        <li class="dropdown"><a href="index.astro">Home</a></li>
-        <li class="dropdown">
-            <a class="dropdown-link">
-                Vereniging
-                <i class="fa-solid fa-caret-down" />
-            </a>
-            <ul class="dropdown-menu">
-                <li><a href="/vereniging/activiteiten">Activiteiten</a></li>
-                <li><a href="/vereniging/bestuur">Bestuur</a></li>
-                <li><a href="/vereniging/commissies">Commissies</a></li>
-            </ul>
-        </li>
-        <li class="dropdown"><a href="#studie">Studie</a></li>
-        <li class="dropdown"><a href="#carriere">Carrière</a></li>
-        <li class="dropdown"><a href="#contact">Contact</a></li>
-        <li class="dropdown"><a href="#links">Links</a></li>
-        <li class="button"><a href="https://koala.svsticky.nl">Koala</a></li>
-        <li class="button"><a href="https://wordlid.svsticky.nl">Word lid!</a></li>
+    <ul class="h-full flex flex-row gap-4">
+        {menus.map(menu => (
+            <li class="my-auto relative">
+                {menu.to
+                    ? menu.type === "button"
+                        ? <a href={localiseUrl(menu.to)} class="text-[#fa6b20] bg-white rounded-lg px-4 py-2">{menu.title}</a>
+                        : <a href={localiseUrl(menu.to)} class="text-white">{menu.title}</a>
+                    : <a data-menu class="text-white cursor-pointer select-none">
+                        {menu.title}
+                        <i class="fa-solid fa-caret-down transition-transform" />
+                      </a>}
+                {menu.submenu && <ul class="absolute top-6 left-1/2 -translate-x-1/2 flex-col bg-white border border-[#999999] rounded text-center z-10 px-4" style="display: none">
+                    {menu.submenu.map(submenu => (
+                        <li class="py-2 not-last:border-b not-last:border-[#999999]">
+                            <a class="w-full hover:-translate-y-1 inline-block transition-transform" href={localiseUrl(submenu.to)}>
+                                {submenu.title}
+                                {submenu.to.startsWith("http") && <i class="text-sm fa-solid fa-arrow-up-right-from-square" />}
+                            </a>
+                        </li>
+                    ))}
+                </ul>}
+            </li>
+        ))}
     </ul>
-    <a id="nav-icon">&#9776;</a>
 </nav>
 
 <script>
-    const dropdownLinks = document.getElementsByClassName("dropdown-link");
-    for (const dropdownLink of dropdownLinks) {
-        dropdownLink.addEventListener("click", () => {
-            const caret = dropdownLink.children[1]! as HTMLElement;
-            caret.style.transform = "rotate(180deg)";
-            const menu = dropdownLink.nextElementSibling! as HTMLUListElement;
-            menu.style.display = menu.style.display === "none" ? "block" : "none";
-        });
+    let opened_submenu: HTMLElement | null = null;
+    
+    function close_menu(menu: HTMLElement) {
+        const icon = menu.querySelector(".fa-solid") as HTMLElement;
+        const submenu = menu.nextElementSibling as HTMLElement;
+
+        submenu.style.display = "none";
+        icon.style.rotate = "0deg";
+        icon.style.translate = "0";
+    }
+    
+    function open_menu(menu: HTMLElement) {
+        const icon = menu.querySelector(".fa-solid") as HTMLElement;
+        const submenu = menu.nextElementSibling as HTMLElement;
+
+        if (opened_submenu)
+            close_menu(opened_submenu.querySelector("a[data-menu]")!);
+        opened_submenu = menu.parentElement;
+
+        submenu.style.display = "flex";
+        icon.style.rotate = "180deg";
+        icon.style.translate = "0 2px";
     }
 
-    document
-        .getElementById("nav-icon")!
-        .addEventListener("click", (_) =>
-            document.querySelector("nav")!.classList.toggle("responsive"),
-        );
+    function toggle_menu(menu: HTMLElement) {
+        const submenu = menu.nextElementSibling as HTMLElement;
+        submenu.style.display === "none" ? open_menu(menu) : close_menu(menu);
+    }
 
-    document.querySelectorAll("nav ul a").forEach((link) => {
-        link.addEventListener("click", (_) =>
-            document.querySelector("nav")!.classList.remove("responsive"),
-        );
+    const menus = Array.from(document.querySelectorAll("a[data-menu]")) as HTMLElement[];
+    for (const menu of menus) {
+        menu.addEventListener("click", () => { toggle_menu(menu); });
+    }
+
+    document.addEventListener("click", e => {
+        const target = e.target as HTMLElement;
+        if (opened_submenu && !opened_submenu.contains(target)) 
+            close_menu(opened_submenu.querySelector("a[data-menu]")!);
     });
-
 </script>
-
-<style lang="scss">
-
-    html {
-        scroll-behavior: smooth;
-    }
-
-    nav {
-        background: #fa6b20;
-        height: 4rem;
-        display: flex;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
-        width: calc(100vw - 3rem);
-
-        img {
-            height: 4rem;
-            align-self: flex-start;
-        }
-
-        ul.toplevel-links {
-            display: none;
-            list-style-type: none;
-            margin: 0;
-
-            li {
-                position: relative;
-
-                a {
-                    display: inline-block;
-                    color: white;
-                    padding: 3px;
-                    text-decoration: none;
-                    transition: transform 0.2s ease, opacity 0.2s ease;
-                    cursor: pointer;
-                }
-
-                i.fa-caret-down {
-                    color: white;
-                }
-
-                .dropdown-menu {
-                    display: block;
-                    position: absolute;
-                    top: 2rem;
-                    background: white;
-                    margin: 0;
-                    padding: 0;
-                    list-style-type: none;
-                    text-align: center;
-                    z-index: 50;
-                    left: 50%;
-                    transform: translateX(-50%);
-                    border-radius: .5rem;
-                    border: 1px solid black;
-                    
-                    li {
-                        padding: .5rem 1rem;
-
-                        &:not(:last-child) {
-                            border-bottom: 1px solid black;
-                        }
-
-                        a {
-                            color: black;
-                        }
-                    }
-                }
-            }
-
-            li.button {
-                a {
-                    background: #ffffff;
-                    color: #fa6b20;
-                    padding: 0.35rem 0.9rem;
-                    border-radius: 10px;
-                    font-weight: 600;
-                    box-shadow: 0 2px 6px rgba(0,0,0,0.12);
-                    transition: transform 0.15s ease, opacity 0.15s ease;
-                    text-decoration: none;
-                    display: inline-block;
-                }
-
-                a:hover {
-                    opacity: 0.95;
-                    transform: translateY(-2px);
-                    text-decoration: none;
-                }
-            }
-        }
-
-        &.responsive ul {
-            position: absolute;
-            top: 6rem;
-            left: 0;
-            padding: 1rem;
-            display: flex;
-            z-index: 100;
-            background: #61518f;
-            width: calc(100vw - 2rem);
-            flex-direction: column;
-            gap: 1rem;
-        }
-
-        #nav-icon {
-            align-self: flex-end;
-            display: block;
-            font-size: 1.8rem;
-            color: white;
-            cursor: pointer;
-            margin: auto 0;
-            text-decoration: none;
-            user-select: none;
-        }
-    }
-
-    @media screen and (min-width: 805px) {
-        nav {
-            padding: 1rem 0;
-            width: 100vw;
-            align-items: center;
-            justify-content: space-around;
-
-            #nav-icon {
-                display: none;
-            }
-
-            ul.toplevel-links {
-                display: flex;
-                gap: 2rem;
-                margin: auto 0;
-                padding: 0;
-                align-self: flex-end;
-            }
-        }
-    }
-</style>

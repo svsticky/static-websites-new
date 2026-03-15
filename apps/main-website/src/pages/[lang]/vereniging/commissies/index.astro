@@ -5,7 +5,7 @@ export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en
 const { lang } = Astro.params as { lang: Config["locale"] };
 ---
 
-<Layout title={lang === "nl" ? "Commissies" : "Committees"}>
+<Layout title={lang === "nl" ? "Commissies" : "Committees"} lang={lang}>
   <main>
 
     <!-- ========================= -->

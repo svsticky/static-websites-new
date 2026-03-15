@@ -13,7 +13,7 @@ const { lang, slug } = Astro.params as { lang: Config["locale"], slug: string };
 const committee = (await sdk.find({ collection: "main-committee", where: { slug: { equals: slug } }, limit: 1, locale: lang })).docs[0];
 ---
 
-<Layout title={lang === "nl" ? "Adviesraad" : "Advisory board"}>
+<Layout title={lang === "nl" ? "Adviesraad" : "Advisory board"} lang={lang}>
   <main>
     <!-- WITTE KAART -->
     <div class="committee-card">

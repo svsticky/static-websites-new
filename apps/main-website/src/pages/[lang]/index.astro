@@ -38,7 +38,7 @@ function formatTextNodes(content: { root: Node }) {
 }
 ---
 
-<Layout title="SV Sticky">
+<Layout title="SV Sticky" lang={lang}>
   <CarouselHeader images={images} buttons={hero.buttons}>
     <div set:html={convertLexicalToHTML({ data: hero.content })}></div>
   </CarouselHeader>

@@ -4,7 +4,7 @@ export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en
 const { lang } = Astro.params;
 ---
 
-<Layout title={lang === "nl" ? "Activiteiten" : "Activities"}>
+<Layout title={lang === "nl" ? "Activiteiten" : "Activities"} lang={lang}>
   <main>
     <h1>Activiteiten</h1>
     <section class="activiteiten-section">

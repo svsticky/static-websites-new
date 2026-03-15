@@ -19,7 +19,7 @@ const { isLast } = Astro.props as { isLast: boolean };
 const board = (await sdk.find({ collection: "main-board", where: { board_number: { equals: number } }, locale: lang })).docs[0];
 ---
 
-<Layout title={`${lang === "nl" ? "Bestuur" : "Board"} ${board.board_number}`}>
+<Layout title={`${lang === "nl" ? "Bestuur" : "Board"} ${board.board_number}`} lang={lang}>
   <main>
     <div class="board-card">
 
