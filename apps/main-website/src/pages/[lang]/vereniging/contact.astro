@@ -7,6 +7,7 @@ import type { Media } from "@svsticky/content";
 import Heading from "../../../components/Heading.astro";
 
 import "../../../styles/global.css";
+import Card from "../../../components/Card.astro";
 
 export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}] as const;
 const { lang } = Astro.params;
@@ -26,7 +27,7 @@ const bottom_sections = {
 
     <div class="grid grid-cols-3 gap-8">
       {contact.people.map(person => (
-        <section class="flex flex-col border border-[#999999] bg-white rounded shadow px-6 py-4">
+        <Card class="py-4 px-8">
           <h3 class="font-bold text-xl mb-4">{person.title}</h3>
           <div class="grid grid-cols-5 h-full">
             <img class="rounded-full m-auto" src={(person.photo as Media).url} alt={`${person.name}: contactpersoon voor ${person.title}`}>
@@ -36,17 +37,17 @@ const bottom_sections = {
               <span class="py-1">📧 <a href={`mailto:${person.email}`}>{person.email}</a></span>
             </div>
           </div>
-        </section>
+        </Card>
       ))}
     </div>
 
     <Heading title="Gegevens" />
     <div class="grid grid-cols-3 gap-8">
       {Object.entries(bottom_sections).map(([title, data]) => (
-        <section class="border border-[#999999] bg-white rounded shadow px-6 py-4">
+        <Card class="gap-4">
           <h3 class="font-bold text-xl">{title}</h3>
           <div class="info-block" set:html={convertLexicalToHTML({ data })}></div>
-        </section>
+        </Card>
       ))}
     </div>
   </main>

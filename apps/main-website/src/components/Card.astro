@@ -1,0 +1,29 @@
+---
+import "../styles/global.css";
+const { link, class: className } = Astro.props as { link?: string, class?: string };
+
+const c = "px-4 py-2 duration-200 bg-white rounded-xl shadow-[0_1.2rem_3rem_rgba(0,0,0,0.06),0_0.6rem_1.5rem_rgba(0,0,0,0.04)] flex flex-col items-center";
+---
+
+{link
+    ? <a href={link} class:list={[c, className ?? ""]}><slot /></a>
+    : <div class:list={[c, className ?? ""]}><slot /></div>}
+
+<style>
+@import "tailwindcss";
+
+/* .card:hover {
+  @apply shadow-[0_1rem_2rem_rgba(0,0,0,0.12)] -translate-y-1;
+}
+
+.card {
+  @apply px-4 py-2 duration-200;
+  background: white;
+  border-radius: 2rem;
+  box-shadow:
+    ;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+} */
+</style>
