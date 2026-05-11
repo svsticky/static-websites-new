@@ -1,0 +1,28 @@
+---
+import Layout from "../../../../components/Layout.astro";
+import Card from "../../../../components/Card.astro";
+
+import type { Config, Media } from "@svsticky/content";
+import sdk from "../../../../sdk";
+import Heading from "../../../../components/Heading.astro";
+
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
+const { lang } = Astro.params as { lang: Config["locale"] };
+
+const societies = (await sdk.find({ collection: "main-society", locale: lang })).docs;
+---
+
+<Layout title={lang === "nl" ? "Disputen" : "Societies"} lang={lang}>
+  <main class="w-[90%] max-w-280 mx-auto pb-16 text-[#242424]">
+    <Heading title={lang === "nl" ? "Disputen" : "Societies"} />
+
+    <section class="grid grid-cols-2 gap-8">
+      {societies.map(society => (
+        <Card link={`/${lang}/vereniging/disputen/${society.slug}`} class="py-4 px-8">
+          <img class="w-[70%] h-20 mb-4 object-contain" src={(society.logo as Media).url} alt={(society.logo as Media).alt} />
+          <p class="bg-[rgba(0,0,0,0.05)] px-[0.6rem] py-[0.4rem] rounded-lg font-bold">{society.name}</p>
+        </Card>
+      ))}
+    </section>
+  </main>
+</Layout>

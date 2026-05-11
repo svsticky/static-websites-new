@@ -26,6 +26,7 @@ import { Quote } from './radio/Quote'
 import { Stats } from './main/Stats'
 import { NewsItem } from './main/NewsItem'
 import { Committee } from './main/Committee'
+import { Society } from './main/Society'
 import { Board } from './main/Board'
 import { Company } from './vacancies/Company'
 import { CompanyContact } from './vacancies/CompanyContact'
@@ -54,7 +55,7 @@ export default buildConfig({
   collections: [
     Users, Media, Person, FAQQuestion, Supermentor, Ad, BoardMessage,
     Quote, NewsItem, Committee, Board, Company, CompanyContact, Vacancy,
-    Study
+    Study, Society
   ],
   globals: [
     Association, Contact, FAQ, IntroHero, Information, Signup, SmallPrint,

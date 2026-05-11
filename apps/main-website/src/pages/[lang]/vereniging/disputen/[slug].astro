@@ -1,0 +1,169 @@
+---
+import Layout from "../../../../components/Layout.astro";
+import type { Config, Media } from "@svsticky/content";
+import sdk from "../../../../sdk";
+import { convertLexicalToHTML } from "@payloadcms/richtext-lexical/html";
+
+export const getStaticPaths = () => (sdk
+  .find({ collection: "main-society", select: { slug: true } })
+  .then(resp => resp.docs.flatMap(({ slug }) => [{params: {lang: "nl", slug}}, {params: {lang: "en", slug}}])));
+
+const { lang, slug } = Astro.params as { lang: Config["locale"], slug: string };
+
+const society = (await sdk.find({ collection: "main-society", where: { slug: { equals: slug } }, limit: 1, locale: lang })).docs[0];
+---
+
+<Layout title={lang === "nl" ? "Dispuut" : "Society"}>
+  <main>
+    <!-- WITTE KAART -->
+    <div class="society-card">
+
+      <!-- TITEL -->
+      <div class="society-header">
+        <h1 class="society-title">{society.name}</h1>
+      </div>
+
+      <div class="society-content">
+
+        <!-- LOGO -->
+        <div class="logo-wrapper">
+          <img 
+            src={(society.logo as Media).url}
+            alt={`Logo ${society.name}`}
+          />
+        </div>
+
+        <!-- TEKST RECHTS -->
+        <div class="society-text">
+          <div class="info-block" set:html={convertLexicalToHTML({ data: society.about })}></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NAVIGATIEKNOPPEN -->
+    <div class="society-nav">
+      <a href={`/${lang}/vereniging/disputen`} class="nav-btn back">← Terug naar overzicht</a>
+    </div>
+  </main>
+</Layout>
+
+<style>
+
+/* LAYOUT */
+main {
+  width: 90%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding-bottom: 4rem;
+  color: #242424;
+}
+
+/* ======================= */
+/*   WITTE KAART           */
+/* ======================= */
+
+.society-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1.2rem;
+  box-shadow: 0 1rem 2rem rgba(0,0,0,0.06);
+  margin: 3rem 0;
+}
+
+/* HEADER */
+.society-header {
+  margin-bottom: 1.6rem;
+}
+
+.society-title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--theme-color);
+}
+
+/* ======================= */
+/* GRID (1/4 - 3/4)        */
+/* ======================= */
+
+.society-content {
+  display: grid;
+  grid-template-columns: 1fr 3fr;  /* <<< 1/4 logo, 3/4 tekst */
+  gap: 2.2rem;
+  align-items: start;
+}
+
+/* LOGO */
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.logo-wrapper img {
+  width: 100%;
+  max-width: 220px;
+  object-fit: contain;
+  display: block;
+}
+
+/* ======================= */
+/* INFO-BLOKKEN            */
+/* ======================= */
+
+.info-block {
+  margin-bottom: 1.8rem;
+}
+
+.info-block h3 {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--theme-color);
+}
+
+.info-block p {
+  margin: 0.4rem 0 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+/* ======================= */
+/* NAVIGATIEKNOPPEN        */
+/* ======================= */
+
+.society-nav {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.nav-btn {
+  background: #fa6b20;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.6rem;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.nav-btn:hover {
+  filter: brightness(0.9);
+}
+
+/* ======================= */
+/* RESPONSIVE              */
+/* ======================= */
+
+@media (max-width: 800px) {
+  .society-content {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .logo-wrapper {
+    margin-bottom: 1rem;
+  }
+}
+
+</style>

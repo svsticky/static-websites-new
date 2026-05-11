@@ -82,6 +82,7 @@ export interface Config {
     'company-contact': CompanyContact;
     vacancy: Vacancy;
     study: Study;
+    'main-society': MainSociety;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -109,6 +110,7 @@ export interface Config {
     'company-contact': CompanyContactSelect<false> | CompanyContactSelect<true>;
     vacancy: VacancySelect<false> | VacancySelect<true>;
     study: StudySelect<false> | StudySelect<true>;
+    'main-society': MainSocietySelect<false> | MainSocietySelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -521,6 +523,37 @@ export interface Study {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-society".
+ */
+export interface MainSociety {
+  id: number;
+  /**
+   * The part after /disputen/ in the url of the website
+   */
+  slug: string;
+  name: string;
+  logo: number | Media;
+  about: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -602,6 +635,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'study';
         value: number | Study;
+      } | null)
+    | ({
+        relationTo: 'main-society';
+        value: number | MainSociety;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -864,6 +901,19 @@ export interface StudySelect<T extends boolean = true> {
   order?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "main-society_select".
+ */
+export interface MainSocietySelect<T extends boolean = true> {
+  slug?: T;
+  name?: T;
+  logo?: T;
+  about?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
