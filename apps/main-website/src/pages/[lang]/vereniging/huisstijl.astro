@@ -1,0 +1,140 @@
+---
+import Layout from "../../../components/Layout.astro";
+import Heading from "../../../components/Heading.astro";
+import type { Config } from "@svsticky/content";
+import Card from "../../../components/Card.astro";
+
+export const getStaticPaths = () => [{params: {lang: "nl"}}, {params: {lang: "en"}}];
+const { lang } = Astro.params as { lang: Config["locale"] };
+
+const isNl = lang === "nl";
+
+const logos = [
+  { label: isNl ? "Hoofd - Kleur" : "Head - Color", img: "https://public.svsticky.nl/logos/hoofd_outline_kleur.svg", svg: "https://public.svsticky.nl/logos/hoofd_outline_kleur.svg", png: "https://public.svsticky.nl/logos/hoofd_outline_kleur.png", dark: false },
+  { label: isNl ? "Hoofd - Zwart" : "Head - Black", img: "https://public.svsticky.nl/logos/hoofd_outline_zwart.svg", svg: "https://public.svsticky.nl/logos/hoofd_outline_zwart.svg", png: "https://public.svsticky.nl/logos/hoofd_outline_zwart.png", dark: false },
+  { label: isNl ? "Hoofd - Wit" : "Head - White", img: "https://public.svsticky.nl/logos/hoofd_outline_wit.svg", svg: "https://public.svsticky.nl/logos/hoofd_outline_wit.svg", png: "https://public.svsticky.nl/logos/hoofd_outline_wit.png", dark: true },
+  { label: isNl ? "Compact - Kleur" : "Compact - Color", img: "https://public.svsticky.nl/logos/logo_compact_outline_kleur.svg", svg: "https://public.svsticky.nl/logos/logo_compact_outline_kleur.svg", png: "https://public.svsticky.nl/logos/logo_compact_outline_kleur.png", dark: false },
+  { label: isNl ? "Compact - Zwart" : "Compact - Black", img: "https://public.svsticky.nl/logos/logo_compact_outline_zwart.svg", svg: "https://public.svsticky.nl/logos/logo_compact_outline_zwart.svg", png: "https://public.svsticky.nl/logos/logo_compact_outline_zwart.png", dark: false },
+  { label: isNl ? "Compact - Wit" : "Compact - White", img: "https://public.svsticky.nl/logos/logo_compact_outline_wit.svg", svg: "https://public.svsticky.nl/logos/logo_compact_outline_wit.svg", png: "https://public.svsticky.nl/logos/logo_compact_outline_wit.png", dark: true },
+  { label: isNl ? "Volledig - Kleur" : "Full - Color", img: "https://public.svsticky.nl/logos/logo_outline_kleur.svg", svg: "https://public.svsticky.nl/logos/logo_outline_kleur.svg", png: "https://public.svsticky.nl/logos/logo_outline_kleur.png", dark: false },
+  { label: isNl ? "Volledig - Zwart" : "Full - Black", img: "https://public.svsticky.nl/logos/logo_outline_zwart.svg", svg: "https://public.svsticky.nl/logos/logo_outline_zwart.svg", png: "https://public.svsticky.nl/logos/logo_outline_zwart.png", dark: false },
+  { label: isNl ? "Volledig - Wit" : "Full - White", img: "https://public.svsticky.nl/logos/logo_outline_wit.svg", svg: "https://public.svsticky.nl/logos/logo_outline_wit.svg", png: "https://public.svsticky.nl/logos/logo_outline_wit.png", dark: true },
+];
+---
+
+<Layout title={isNl ? "Huisstijl" : "Brand identity"} lang={lang}>
+  <main class="w-[90%] max-w-280 mx-auto pb-16 text-[#242424]">
+    <Heading title={isNl ? "Huisstijl" : "Brand identity"} />
+
+    <!-- LOGO'S -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-extrabold mb-2">
+        Sticky <span class="text-[#FA6B20]">{isNl ? "logo's" : "logos"}</span>
+      </h2>
+      <p class="mb-8">
+        {isNl
+          ? "Het Sticky logo heeft drie verschillende vormen: het hoofd, de compacte versie en het volledige logo. Het hoofd wordt voornamelijk gebruikt op merchandise of in e-mailhandtekeningen. De compacte versie is ook te vinden op bepaalde merchandise. Het volledige logo wordt voornamelijk gebruikt voor externe doeleinden, zoals promotie richting bedrijven en universiteiten."
+          : "The Sticky logo comes in three forms: the head, the compact version, and the full logo. The head is mainly used on merchandise or email signatures. The compact version also appears on certain merchandise. The full logo is primarily used for external purposes, such as promotion towards companies and universities."}
+      </p>
+
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+        {logos.map(logo => (
+        <Card class={`py-4 px-8 flex flex-col items-center ${logo.dark ? "!bg-[#242424]" : ""}`}>
+        <img class="w-[70%] h-40 mb-4 object-contain" src={logo.img} alt={logo.label} />
+        <div class="flex items-center justify-between w-full gap-2">
+            <p class={`px-[0.6rem] py-[0.4rem] rounded-lg font-bold text-sm ${logo.dark ? "bg-white/10 text-white" : "bg-[rgba(0,0,0,0.05)] text-[#242424]"}`}>
+            {logo.label}
+            </p>
+            <div class="flex gap-2 text-sm">
+            <a href={logo.svg} download class={`px-[0.6rem] py-[0.4rem] rounded-lg font-bold transition hover:scale-105 hover:brightness-90 ${logo.dark ? "bg-white/10 text-white" : "bg-[rgba(0,0,0,0.05)]"}`}>SVG</a>
+            <a href={logo.png} download class={`px-[0.6rem] py-[0.4rem] rounded-lg font-bold transition hover:scale-105 hover:brightness-90 ${logo.dark ? "bg-white/10 text-white" : "bg-[rgba(0,0,0,0.05)]"}`}>PNG</a>
+            </div>
+        </div>
+        </Card>
+        ))}
+      </div>
+    </section>
+
+    <!-- KLEUREN -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-extrabold mb-2">
+        {isNl ? "Onze" : "Our"} <span class="text-[#FA6B20]">{isNl ? "kleuren" : "colors"}</span>
+      </h2>
+      <p class="mb-8">
+        {isNl
+          ? "Elk bestuur heeft zijn eigen bestuurskleur. Dit jaar is dat #FA6B20. Voor promotie wordt aangeraden om met meerdere kleuren te werken die goed op elkaar aansluiten. Handige tools zijn Coolors en Adobe Color Wheel."
+          : "Each board has its own color. This year it's #FA6B20. For promotion, it's recommended to use multiple complementary colors. Useful tools include Coolors and Adobe Color Wheel."}
+      </p>
+
+      <div class="rounded-2xl overflow-hidden shadow-[0_0.8rem_1.5rem_rgba(0,0,0,0.06)] w-56 bg-[#FA6B20]">
+        <div class="w-full h-28"></div>
+        <div class="p-4 text-white">
+          <p class="font-extrabold text-xl">#FA6B20</p>
+          <p class="text-white/80 text-sm mt-1">RGB: 250, 107, 32</p>
+          <p class="text-white/80 text-sm">CMYK: 0%, 87%, 57%, 2%</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- LETTERTYPES -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-extrabold mb-2">
+        {isNl ? "Letter" : "Typo"}<span class="text-[#FA6B20]">{isNl ? "types" : "graphy"}</span>
+      </h2>
+      <p class="">
+        {isNl
+          ? "Op posters wordt aangeraden maximaal 1 of 2 fonts te gebruiken, zodat de poster niet te vol wordt. De letterfamilies 'serif' en 'sans-serif' worden het meest gebruikt, maar er is altijd vrijheid om een andere familie te kiezen."
+          : "On posters, it's recommended to use a maximum of 1 or 2 fonts to keep things clean. The 'serif' and 'sans-serif' font families are most commonly used, but there is always freedom to choose another."}
+      </p>
+    </section>
+
+    <!-- POSTERS -->
+    <section class="mb-16">
+      <h2 class="text-3xl font-extrabold mb-2">
+        {isNl ? "Poster" : "Poster"}<span class="text-[#FA6B20]">{isNl ? "vereisten" : " requirements"}</span>
+      </h2>
+      <p class="mb-6">
+        {isNl
+          ? "Posters bij Sticky hebben een aantal vaste vereisten om de kwaliteit en zichtbaarheid te verbeteren:"
+          : "Posters at Sticky have a set of fixed requirements to ensure quality and visibility:"}
+      </p>
+
+      <div class="bg-white rounded-2xl shadow-[0_0.8rem_1.5rem_rgba(0,0,0,0.06)] p-6 mb-10 inline-block">
+        <table class="text-sm">
+          <tbody>
+            {[
+              [isNl ? "Formaat" : "Format", "A3"],
+              [isNl ? "Resolutie" : "Resolution", "300 dpi"],
+              [isNl ? "Oriëntatie" : "Orientation", isNl ? "Portret" : "Portrait"],
+              [isNl ? "Bestandsformaat" : "File format", "PDF"],
+              [isNl ? "Taal" : "Language", isNl ? "Engels" : "English"],
+            ].map(([key, value]) => (
+              <tr class="border-b border-black/5 last:border-0">
+                <td class="pr-12 py-2 text-gray-400 font-semibold">{key}</td>
+                <td class="py-2 font-bold">{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="text-xl font-extrabold mb-2">
+        {isNl ? "Activiteiten" : "Activity "}<span class="text-[#FA6B20]">{isNl ? "posters" : "posters"}</span>
+      </h3>
+      <p class="mb-8">
+        {isNl
+          ? "De titel van de activiteit, datum, locatie, het commissielogo en het Sticky logo moeten altijd op de poster staan. Voor de datum wordt DD-MM, DD-MM-YY of DD-MM-YYYY aangeraden. De Amerikaanse MM-DD notatie wordt afgeraden."
+          : "The activity title, date, location, committee logo, and Sticky logo must always appear on the poster. DD-MM, DD-MM-YY, or DD-MM-YYYY date notation is recommended. The American MM-DD format is discouraged."}
+      </p>
+
+      <h3 class="text-xl font-extrabold mb-2">
+        {isNl ? "Extern" : "External "}<span class="text-[#FA6B20]">{isNl ? "posters" : "posters"}</span>
+      </h3>
+      <p class="">
+        {isNl
+          ? "Posters voor externe of onderwijs gerelateerde activiteiten hebben soms extra vereisten. Zo moet het commissielogo worden vervangen door het logo van het betreffende bedrijf."
+          : "Posters for external or education-related activities sometimes have additional requirements. For example, the committee logo should be replaced by the company's logo."}
+      </p>
+    </section>
+  </main>
+</Layout>
